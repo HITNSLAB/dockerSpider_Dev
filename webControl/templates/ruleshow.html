@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="/static/css/bootstrap.min.css?v=3.4.0" rel="stylesheet">
+    <link href="/static/font-awesome/css/font-awesome.css?v=4.3.0" rel="stylesheet">
+    <link href="/static/css/animate.css" rel="stylesheet">
+    <link href="/static/css/style.css?v=2.2.0" rel="stylesheet">
+
+    <!-- Mainly scripts -->
+    <script src="/static/js/jquery-2.1.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js?v=3.4.0"></script>
+    <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="/static/js/hplus.js?v=2.2.0"></script>
+    <script src="/static/js/plugins/pace/pace.min.js"></script>
+
+
+    <!-- Nestable List -->
+    <script src="/static/js/plugins/nestable/jquery.nestable.js"></script>
+</head>
+
+<body class="gray-bg">
+
+<div class="col-lg-6">
+    <div class="ibox ">
+        <div class="ibox-title">
+            <h5>follow页面列表</h5>
+        </div>
+        <div class="ibox-content">
+
+            <p class="m-b-lg">
+                <strong> 从主页follow的列表类页面及二次follow的数据页面</strong>
+            </p>
+
+            <div class="dd" id="nestable">
+                <ol class="dd-list">
+
+                    {% for link in linkList %}
+                        <li class="dd-item" data-id={{ forloop.counter }}>
+                            <div class="dd-handle">{{ link.url }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ link.title }}
+                                <span class="pull-right label label-info">{{ link.datalist|length }}</span>
+                            </div>
+
+                            <ol class="dd-list">
+                                {% for datalink in link.datalist %}
+                                    <li class="dd-item" data-id={{ forloop.counter }}>
+                                        <div class="dd-handle">{{ datalink }}</div>
+                                    </li>
+                                {% endfor %}
+                            </ol>
+                        </li>
+
+                    {% endfor %}
+                </ol>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        // this following function "nestable('collapseAll')" should be called twice
+        $('.dd').nestable('collapseAll');
+        $('.dd').nestable('collapseAll');
+    });
+</script>
+</body>
+</html>

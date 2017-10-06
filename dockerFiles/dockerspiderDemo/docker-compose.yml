@@ -1,0 +1,29 @@
+version: '2'
+services:
+  urlspider:
+    build: ./urlspider
+    links: 
+      - redis
+      - mongo
+
+  dataspider:
+    build: ./dataspider
+    links: 
+      - redis
+      - mongo
+
+  redis:
+    image: daocloud.io/daocloud/dao-redis:master-init
+    environment:
+      REDIS_PASS: "HITnsLAB-ss_VPN!"
+    expose:
+      - "6379"
+
+  mongo:
+    image: daocloud.io/library/mongo:3.4.2
+    expose:
+      - "27018"
+
+
+
+

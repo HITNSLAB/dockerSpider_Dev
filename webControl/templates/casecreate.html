@@ -1,0 +1,515 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>创建面板</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="form_wizard.html#">选项1</a>
+                            </li>
+                            <li><a href="form_wizard.html#">选项2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <h2>
+                        现在开始创建一个爬虫模板
+                    </h2>
+                    <p>
+                        通过简单的几个步骤来创建一个爬虫模板
+                    </p>
+
+                    <form id="form" action="#" class="wizard-big">
+                        <h1>基础信息</h1>
+                        <fieldset>
+                            <h2>BASIC</h2>
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <label>模板名称 *</label>
+                                        <input id="caseName" name="caseName" type="text" class="form-control required"
+                                               value="discuz论坛">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>默认URL *</label>
+                                        <input id="defaultUrl" name="defaultUrl" type="text"
+                                               class="form-control required" value="http://bbs.ghtt.net">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>模板描述 *</label>
+                                        <textarea id="caseDesc" name="caseDesc" class="form-control required">通用的discuz论坛模板，用于抓取帖子的标题、内容、作者、发帖时间等信息。</textarea>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="text-center">
+                                        <div style="margin-top: 20px">
+                                            <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                        <h1>采集规则</h1>
+                        <fieldset>
+                            <h2>RULES</h2>
+                            <div class="row">
+                                <div class="col-lg-9">
+                                    <div id="div-web" style="display:inline">
+                                        <iframe id="ifame-web" src=""
+                                                style="height: 800px;width:100%;"></iframe>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div style="margin-top: 50px">
+                                        <label>页面切换</label>
+                                        <div style="margin-bottom: 100px">
+                                            <button type="button" class="btn btn-info btn-rounded" id="btn-web">WEB
+                                            </button>
+                                            <button type="button" class="btn btn-info btn-rounded" id="btn-html">HTML
+                                            </button>
+                                            <button type="button" class="btn btn-info btn-rounded" id="btn-dom">DOM
+                                            </button>
+                                            <button type="button" class="btn btn-info btn-rounded" id="btn-test">测试
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <label>跟踪页面规则 *</label>
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">allow:</label>
+                                        <div class="col-lg-8">
+                                            <input id="listPage-allow" name="listPage-allow" type="text"
+                                                   class="form-control required" value="('forum-\d+-\d+\.html',)">
+                                        </div>
+                                    </div>
+                                    <label style="height: 30px"></label>
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">deny:</label>
+                                        <div class="col-lg-8">
+                                            <input id="listPage-deny" name="listPage-deny" type="text"
+                                                   class="form-control required" value="()">
+                                        </div>
+                                    </div>
+                                    <label style="height: 60px;"></label>
+                                    <label>数据页面规则 *</label>
+                                    <div class="form-group">
+                                        <input id="dataPage" name="dataPage" type="text" class="form-control required"
+                                               value="//a[@class=&#34s xst&#34]/@href">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <h1>数据项规则</h1>
+                        <fieldset>
+                            <h2>RULES</h2>
+                            <div class="row">
+                                <div class="col-lg-9">
+                                    <div id="div-page" style="display:inline">
+                                        <iframe id="ifame-page" src="http://baidu.com"
+                                                style="height: 800px;width:100%;"></iframe>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div style="margin-top: 50px">
+                                        <label>页面切换</label>
+                                        <div style="margin-bottom: 100px">
+                                            <button type="button" class="btn btn-info btn-rounded" id="btn-item-web">WEB
+                                            </button>
+                                            <button type="button" class="btn btn-info btn-rounded" id="btn-item-html">
+                                                HTML
+                                            </button>
+                                            <button type="button" class="btn btn-info btn-rounded" id="btn-item-dom">
+                                                DOM
+                                            </button>
+                                            <button type="button" class="btn btn-info btn-rounded" id="btn-item-test">测试
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <label>数据项:</label>
+                                    <div class="form-group">
+                                        <input id="datapage-item-name" name="datapage-item-name" type="text"
+                                               class="form-control " value="author">
+                                    </div>
+
+                                    <label style="height: 30px"></label>
+                                    <label>xpath规则:</label>
+                                    <div class="form-group">
+                                        <input id="datapage-item-rule" name="datapage-item-rule" type="text"
+                                               class="form-control "
+                                               value="//div[@class=&#34authi&#34]/a[@class=&#34xw1&#34]/text()">
+                                    </div>
+                                    <label style="height: 30px"></label>
+                                    <div class="ibox-content">
+                                        <div class="">
+                                            <a onclick="fnClickAddRow();" href="javascript:void(0);"
+                                               class="btn btn-primary "><i class="fa fa-plus"></i>添加数据</a>
+                                            <a id="row-delete" class="btn btn-danger "><i
+                                                    class="fa fa-times"></i>删除选中</a>
+                                        </div>
+
+                                        <table class="table table-striped table-bordered table-hover " id="editable">
+                                            <thead>
+                                            <tr>
+                                                <th width="50px">数据项</th>
+                                                <th>规则</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <input id="items-rule" name="items-rule" value="" type="hidden">
+                                    {% csrf_token %}
+
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <h1>完成</h1>
+                        <fieldset>
+                            <div class="ibox-content">
+                                <h2>确认提交</h2>
+                                <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required">
+                                <label for="acceptTerms">填写数据无误，可以创建模板</label>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+
+{% block style %}
+    <link href="/static/css/bootstrap.min.css?v=3.4.0" rel="stylesheet">
+    <link href="/static/font-awesome/css/font-awesome.css?v=4.3.0" rel="stylesheet">
+    <link href="/static/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/static/css/plugins/steps/jquery.steps.css" rel="stylesheet">
+    <link href="/static/css/animate.css" rel="stylesheet">
+    <link href="/static/css/style.css?v=2.2.0" rel="stylesheet">
+    <!-- Data Tables -->
+    <link href="/static/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="/static/js/plugins/layer/skin/layer.css" rel="stylesheet">
+
+
+    <style type="text/css">
+        #editable tbody tr.selected {
+            background-color: #acbad4;
+        }
+    </style>
+
+
+{% endblock %}
+
+{% block script %}
+
+    <!-- Steps -->
+    <script src="/static/js/plugins/staps/jquery.steps.min.js"></script>
+
+    <!-- Jquery Validate -->
+    <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/static/js/plugins/validate/messages_zh.min.js"></script>
+
+    <!-- Data Tables -->
+    <script src="/static/js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="/static/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+    <script src="/static/js/plugins/jeditable/jquery.jeditable.js"></script>
+
+    <script src="/static/js/plugins/layer/layer.js"></script>
+
+
+
+
+
+    <!-- scripts for process_step -->
+    <script>
+        var pageurl;
+        var tablejson;
+        $(document).ready(function () {
+            $("#wizard").steps();
+            $("#form").steps({
+                bodyTag: "fieldset",
+                onStepChanging: function (event, currentIndex, newIndex) {
+                    // Always allow going backward even if the current step contains invalid fields!
+                    if (currentIndex > newIndex) {
+                        return true;
+                    }
+
+                    // Forbid suppressing "Warning" step if the user is to young
+                    if (newIndex === 3 && Number($("#age").val()) < 18) {
+                        return false;
+                    }
+
+                    //update the url in iframe-web
+                    if (currentIndex === 0 && $("#defaultUrl").val()) {
+                        $("#ifame-web").attr("src", $("#defaultUrl").val());
+
+                        //示范一个公告层
+                        layer.open({
+                            type: 1
+                            ,
+                            title: false //不显示标题栏
+                            ,
+                            closeBtn: false
+                            ,
+                            area: '400px;'
+                            ,
+                            shade: 0.8
+                            ,
+                            id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                            ,
+                            resize: false
+                            ,
+                            btn: ['OK']
+                            ,
+                            btnAlign: 'c'
+                            ,
+                            moveType: 1 //拖拽模式，0或者1
+                            ,
+                            content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">' +
+                            '欢迎进入规则定制页面！<br>' +
+                            '该部分提供四种辅助视图帮助您定制页面：<br>' +
+                            '<br>' +
+                            'WEB:提供目标网页的Web视图<br>' +
+                            'HTML：提供目标网页的HTML源码<br>' +
+                            'DOM：提供目标网页的DOM树结构<br>' +
+                            '测试：测试规则在目标网页的运行效果<br>' +
+                            '<br>' +
+                            '规则定制部分还有Tips<br>' +
+                            '快来体验吧！</div>'
+                            ,
+                            success: function (layero) {
+                                var btn = layero.find('.layui-layer-btn');
+                            }
+                        });
+                    }
+
+                    //update the url in iframe-page
+                    if (currentIndex === 1) {
+                        $.post('/aj_getcode/', {
+                            text: "1",
+                            func: "pageUrl",
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        }, function (data, status) {
+                            pageurl = data
+                            $("#ifame-page").attr("src", pageurl);
+                        });
+                    }
+
+                    var form = $(this);
+
+                    // Clean up if user went backward before
+                    if (currentIndex < newIndex) {
+                        // To remove error styles
+                        $(".body:eq(" + newIndex + ") label.error", form).remove();
+                        $(".body:eq(" + newIndex + ") .error", form).removeClass("error");
+                    }
+
+                    // Disable validation on fields that are disabled or hidden.
+                    form.validate().settings.ignore = ":disabled,:hidden";
+
+                    // Start validation; Prevent going forward if false
+                    return form.valid();
+                },
+                onStepChanged: function (event, currentIndex, priorIndex) {
+                    // Suppress (skip) "Warning" step if the user is old enough.
+                    if (currentIndex === 2 && Number($("#age").val()) >= 18) {
+                        $(this).steps("next");
+                    }
+
+                    // Suppress (skip) "Warning" step if the user is old enough and wants to the previous step.
+                    if (currentIndex === 2 && priorIndex === 3) {
+                        $(this).steps("previous");
+                    }
+                },
+                onFinishing: function (event, currentIndex) {
+                    var form = $(this);
+
+                    // Disable validation on fields that are disabled.
+                    // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
+                    form.validate().settings.ignore = ":disabled";
+
+                    // Start validation; Prevent form submission if false
+                    return form.valid();
+                },
+                onFinished: function (event, currentIndex) {
+                    /*
+                     var form = $(this);
+                     // Submit form input
+                     form.submit();*/
+
+
+                    swal({
+                        title: '确认创建爬虫模板？',
+                        text: "创建将立即生效，请确保参数无误。",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '创建',
+                        cancelButtonText: '取消'
+                    }).then(function (isConfirm) {
+                        if (isConfirm) {
+                            $.ajax({
+                                type: "POST",
+                                url: "/savecase/",
+                                data: $('#form').serialize(),
+                                async: false,
+                                success: function () {
+                                    swal(
+                                        '创建成功！',
+                                        '爬虫模板已经保存入库。',
+                                        'success'
+                                    );
+                                }
+                            })
+                        }
+                    });
+
+                }
+            }).validate({
+                errorPlacement: function (error, element) {
+                    element.before(error);
+                },
+                rules: {
+                    confirm: {
+                        equalTo: "#password"
+                    }
+                }
+            });
+        });
+    </script>
+
+
+    <!-- scripts for html-source -->
+    <script>
+        $(document).ready(function () {
+
+            /* Init DataTables */
+            var table = $('#editable').DataTable(
+                {
+                    "sDom": '<"top">rt<"bottom"i><"clear">',
+                }
+            );
+
+            $('#editable tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+
+            $('#row-delete').click(function () {
+                table.row('.selected').remove().draw(false);
+            });
+
+
+            //buttons in page2
+            $("#btn-web").click(function () {
+                $("#ifame-web").attr("src", $("#defaultUrl").val());
+            });
+            $("#btn-html").click(function () {
+                $("#ifame-web").attr("src", '/hlcode/url=' + $("#defaultUrl").val());
+            });
+            $("#btn-dom").click(function () {
+                $("#ifame-web").attr("src", '/cssselect/?url=' + $("#defaultUrl").val());
+            });
+            $("#btn-test").click(function () {
+                var url_base64 = window.btoa($("#defaultUrl").val());
+                var lista_base64 = window.btoa($("#listPage-allow").val());
+                var listd_base64 = window.btoa($("#listPage-deny").val());
+                var datap_base64 = window.btoa($("#dataPage").val());
+                $("#ifame-web").attr("src", '/ruletest/?url=' + url_base64 + '&lista=' + lista_base64 + '&listd=' + listd_base64 + '&datap=' + datap_base64);
+            });
+
+            //buttons in page3
+            $("#btn-item-web").click(function () {
+                $("#ifame-page").attr("src", pageurl);
+            });
+            $("#btn-item-html").click(function () {
+                $("#ifame-page").attr("src", '/hlcode/url=' + pageurl);
+            });
+            $("#btn-item-dom").click(function () {
+                $("#ifame-page").attr("src", '/cssselect/?url=' + pageurl);
+            });
+            $("#btn-item-test").click(function () {
+                var datalist = $("#editable").dataTable().fnGetData();
+                var tablejson = JSON.stringify(datalist);
+                var url_base64 = window.btoa(pageurl);
+                var data_base64 = window.btoa(tablejson);
+                $("#ifame-page").attr("src", '/xpathrule/?url=' + url_base64 + '&data=' + data_base64);
+                //set the hidden input
+                $("#items-rule").val(data_base64)
+            });
+
+            $("#listPage-allow").click(function () {
+                layer.tips("数据类型为元组（tumpl），元素规则为URL的正则表达式。该栏表示允许跟踪的域名。", this, {
+                    tips: [1, '#3595CC'],
+                    time: 5000
+                });
+            });
+
+            $("#listPage-deny").click(function () {
+                layer.tips("数据类型为元组（tumpl），元素规则为URL的正则表达式。该栏表示拒绝跟踪的域名。", this, {
+                    tips: [1, '#3595CC'],
+                    time: 5000
+                });
+            });
+
+            $("#dataPage").click(function () {
+                layer.tips("规则为XPath的表达式，该栏表示数据页面的URL在DOM中的位置", this, {
+                    tips: [1, '#3595CC'],
+                    time: 5000
+                });
+            });
+
+            $("#datapage-item-name").click(function () {
+                layer.tips("数据类型为英文字符串，表示数据项的名称", this, {
+                    tips: [1, '#3595CC'],
+                    time: 5000
+                });
+            });
+
+            $("#datapage-item-rule").click(function () {
+                layer.tips("规则为XPath的表达式，表示数据项在DOM中的位置", this, {
+                    tips: [1, '#3595CC'],
+                    time: 5000
+                });
+            });
+
+        });
+
+        function fnClickAddRow() {
+            $('#editable').dataTable().fnAddData([
+                $("#datapage-item-name").val(),
+                $("#datapage-item-rule").val()]);
+
+        }
+
+
+    </script>
+
+{% endblock %}

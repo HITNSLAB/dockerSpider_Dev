@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="row  border-bottom white-bg dashboard-header">
+        <button class="btn btn-primary" type="button" onclick="location.href='/case/create'">
+            <i class="fa fa-plus"></i>
+            定制模板
+        </button>
+    </div>
+
+    <div class="wrapper wrapper-content  animated fadeInRight">
+        <div class="row">
+
+            {% for case in Cases %}
+
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5><span class="label label-primary" style="font-size: 15px">{{ case.name }}&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;创建时间：{{ case.createDate }}
+                            </h5>
+                            <div class="ibox-tools">
+                                <label id="{{ case.cid }}" class="label label-danger delete-case"
+                                       style="font-size: 15px"><i
+                                        class="fa fa-times"></i>删除</label>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <h1>
+                                {{ case.name }}
+                            </h1>
+                            <h3>{{ case.desc }}</h3>
+                            <p style="font-size: 15px">
+                                <strong class="label label-success"
+                                        style="font-size: 15px">默认URL</strong>&nbsp;&nbsp;{{ case.initUrl }}
+                            </p>
+                            <p style="font-size: 15px">
+                                <strong class="label label-success" style="font-size: 15px">列表页面规则（allow）</strong>&nbsp;&nbsp;{{ case.followPage_allow }}
+                            </p>
+                            <p style="font-size: 15px">
+                                <strong class="label label-success" style="font-size: 15px">列表页面规则（deny）</strong>&nbsp;&nbsp;{{ case.followPage_deny }}
+                            </p>
+                            <p style="font-size: 15px">
+                                <strong class="label label-success"
+                                        style="font-size: 15px">数据页面规则</strong>&nbsp;&nbsp;{{ case.dataPage }}
+                            </p>
+                            <p style="font-size: 15px">
+                                <strong class="label label-success" style="font-size: 15px">数据采集项</strong>
+                                {% for item in case.dataItem %}
+                                    {{ item }}<br>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <!-- Peity -->
+    <script src="/static/js/plugins/peity/jquery.peity.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="/static/js/hplus.js?v=2.2.0"></script>
+    <script src="/static/js/plugins/pace/pace.min.js"></script>
+
+    <script src="/static/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+    <!-- iCheck -->
+    <script src="/static/js/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- Peity d data  -->
+    <script src="/static/js/demo/peity-demo.js"></script>
+    <script>
+        $(document).ready(function () {
+            <!-- Enable portlets -->
+            WinMove();
+
+            $(".delete-case").click(function (e) {
+                swal({
+                    title: '确认删除该爬虫模板？',
+                    text: "删除立即生效，无法撤销！无法撤销！",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '确认删除',
+                    cancelButtonText: '取消'
+                }).then(function (isConfirm) {
+                    if (isConfirm) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/delcase/",
+                            data: {"cid": $(e.target).attr('id'), "csrfmiddlewaretoken": '{{ csrf_token }}'},
+                            async: false,
+                            success: function () {
+                                swal(
+                                    '删除成功！',
+                                    '已经帮您消灭了这个累赘！',
+                                    'success'
+                                );
+                                // refresh the page
+                                location.reload();
+                            }
+                        })
+                    }
+                });
+
+            })
+        });
+    </script>
+{% endblock %}

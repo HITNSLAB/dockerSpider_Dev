@@ -1,0 +1,11 @@
+<div class="alert alert-info text-center">
+	<h4> {{head}}</h4>
+	<hr />
+	<i class="fa fa-warning fa-4x"></i>
+	<p>
+		{{content}}
+	</p>
+	<hr />
+	<a href ng-click="ok()" class="btn btn-danger">确定</a>
+	<a href ng-click="cancel()" class="btn btn-danger">取消</a>
+</div>

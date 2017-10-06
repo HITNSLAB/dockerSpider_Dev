@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div class="row  border-bottom white-bg dashboard-header">
+        <div class="page-header">
+            <h2>服务信息</h2>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-4">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>服务器信息</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="table_basic.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="table_basic.html#">选项1</a>
+                            </li>
+                            <li><a href="table_basic.html#">选项2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+                    <table class="table">
+                        <tbody>
+                        {% for k,v in dockerInfo.items %}
+                            <tr>
+                                <td><strong>{{ k }}</strong></td>
+                                <td><strong>{{ v }}</strong></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>运行中的容器</h5>
+                    <span class="label label-primary">Running</span>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="table_basic.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="table_basic.html#">选项1</a>
+                            </li>
+                            <li><a href="table_basic.html#">选项2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+                    <table class="table">
+                        <tbody>
+                        {% for ct in containerInfo %}
+                            <tr>
+                                <td><span class="label label-info">{{ forloop.counter }}</span><strong
+                                        style="margin-left: 10%">{{ ct }}</strong><span
+                                        class="label label-primary pull-right"><i
+                                        class="fa fa-check"></i></span></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>镜像信息
+                    </h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="table_data_tables.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="table_data_tables.html#">选项1</a>
+                            </li>
+                            <li><a href="table_data_tables.html#">选项2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+                    <table class="table table-striped table-bordered table-hover imagetable">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>镜像大小<span class="label label-primary">MB</span></th>
+                            <th>创建时间</th>
+                            <th>镜像Tag</th>
+                            <th>虚拟大小<span class="label label-primary">MB</span></th>
+                            <th>镜像ID</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for image in imageInfo %}
+                            <tr>
+                                <td ><strong class="label label-warning">{{ forloop.counter }}</strong></td>
+                                {% for k,v in image.items %}
+                                    <td><strong>{{ v }}</strong></td>
+                                {% endfor %}
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/static/cadv/containers.css">
+    <link rel="stylesheet" href="/static/cadv/googletable.css">
+    <link href="/static/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+
+{% endblock %}
+
+{% block script %}
+    <script src="/static/cadv/jquery-1.js"></script>
+    <script src="/static/cadv/bootstrap-3.js"></script>
+    <!--<script type="text/javascript" src="/static/cadv/google-jsapi.js"></script> -->
+
+    <script type="text/javascript" src="/static/cadv/containers.js"></script>
+    <script type="text/javascript" src="/static/cadv/gcharts.js"></script>
+    <script src="/static/cadv/googletable.js"></script>
+    <!-- Data Tables -->
+    <script src="/static/js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="/static/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+    <script src="/static/js/plugins/jeditable/jquery.jeditable.js"></script>
+
+    <script type="application/javascript">
+
+        $('#imagetable').DataTable();
+
+
+    </script>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+version: '3.3'
+services:
+  dataspider:
+    image:
+      gcr.io/gcloud-159107/slavenode
+    deploy:
+      mode: global
+#      replicas: 6
+      # resources:
+      #   limits:
+      #     cpus: '0.001'
+      #     memory: 500M
+      #   reservations:
+      #     cpus: '0.0001'
+      #     memory: 100M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 60s
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost"]
+    #   interval: 1m30s
+    #   timeout: 10s
+    #   retries: 3
+    secrets:				#此secrets标签下的文件管理节点会自动发布到各子节点容器中
+      - source: sslkey
+        target: mongokey
+        mode: 0400
+    labels:
+      com.lee-service.description: "Data_Collector"
+      # com.lee-service.department: "Finance"
+      # com.lee-service.label-with-empty-value: ""
+    command: ["scrapy","crawl","dataSpider"]
+
+  urlspider:
+    image:
+      gcr.io/gcloud-159107/slavenode
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 60s
+    secrets:
+      - source: sslkey
+        target: mongokey
+        mode: 0400
+    labels:
+      com.lee-service.description: "Url_Provider"
+    command: ["proxychains","scrapy","crawl","urlSpider"]
+secrets:
+  sslkey:
+    file: ./credentials/mongokey.rsa.pem
