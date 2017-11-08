@@ -42,14 +42,14 @@ class UrlSpider(RedisCrawlSpider):
                 self.process_func = eval(self.raw_parse_rules['process_value'])
             except Exception as e:
                 self.logger.error(
-                    "eval rules['process_value'] failed, exception: %s, message: %s, remain raw url..." % (
-                    Exception, e.message))
+                    "eval rules['process_value'] failed, exception: %s, message <%s>, remain raw url..." % (
+                        Exception, e.message))
 
         if hasattr(self, 'process_func') and callable(self.process_func):
             try:
                 item['url'] = [self.process_func(v) for v in urls]
             except Exception as e:
-                self.logger.error('func call "process_func" failed, exception: %s, message: %s, remain raw url...' % (
+                self.logger.error('func call "process_func" failed, exception: %s, message <%s>, remain raw url...' % (
                     Exception, e.message))
                 item['url'] = urls
         else:
@@ -61,7 +61,8 @@ class UrlSpider(RedisCrawlSpider):
             self.logger.critical('parse_url failed, exception: %s, message %s ,now shut down...' % (e, e.message))
             self.crawler.engine.close_spider(self, reason=e.message)
         except Exception as e:
-            self.logger.error('parse_url failed, exception: %s, message %s ,skipped this item' % (Exception, e.message))
+            self.logger.error('parse_url failed, exception %s, message <%s>, response url <%s>, skipped this item' % (
+                Exception, e.message, response.url))
 
             # def check_new_rules(self):
             #     new_parse_rules = UrlSpider.template_provider.get_parse_rules(UrlSpider.name)

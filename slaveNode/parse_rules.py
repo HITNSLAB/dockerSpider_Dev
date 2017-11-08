@@ -1,20 +1,18 @@
-import urllib
-import json
-from scrapy.utils.project import get_project_settings
-from slaveNode.scrapy_redis_bf import connection
-import time
 import base64
-from scrapy.utils.log import *
+import json
 import logging
+import time
+
+from scrapy.utils.log import *
+from scrapy.utils.project import get_project_settings
+
+from slaveNode.scrapy_redis_bf import connection
 
 
 class TemplateProvider(object):
     server = connection.from_settings(get_project_settings())
     configure_logging()
-
-    def __init__(self):
-        # configure_logging()
-        self.logger = logging.getLogger(__name__)
+    logger = logging.getLogger(__name__)
 
     def get_parse_rules(self, spidername):
         """
@@ -33,7 +31,7 @@ class TemplateProvider(object):
                 except Exception as e:
                     self.logger.warning('Invalid JSON template, wait again...')
                     pass
-            self.logger.info("Waiting for template data for %s..." % spidername)
+            self.logger.info("Waiting for template data of %s..." % spidername)
             time.sleep(2)
 
             # def get_parse_rules(self, spidername):
