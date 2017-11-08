@@ -42,8 +42,10 @@ class SlavenodeUrlItem(scrapy.Item):
 #     }
 # )
 
+template_provider = TemplateProvider()
+
 globals()['SlavenodeDataItem'] = type(
     'SlavenodeDataItem',
     (scrapy.Item,),
-    {item: scrapy.Field() for item in get_data_parse_rules()['rules']}
+    {item: scrapy.Field() for item in template_provider.get_parse_rules('dataSpider')['rules']}
 )

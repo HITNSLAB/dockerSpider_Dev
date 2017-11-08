@@ -130,6 +130,12 @@ MONGO_SETTINGS = {
         'ssl_cert_reqs': ssl.CERT_REQUIRED
     }
 }
+
+TEMPLATE_API_GATEWAY = {
+    'urlSpider': 'https://yanzhe.org/urlparserules.txt',
+    'dataSpider': 'https://yanzhe.org/dataparserules.txt'
+}
+
 # DB_MONGO_HOST = 'hk1.lee-service.com'
 # DB_MONGO_PORT = 27017
 # DB_MONGO_DBS = 'spiderDataItem'

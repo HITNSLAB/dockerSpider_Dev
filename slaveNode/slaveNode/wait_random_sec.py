@@ -20,14 +20,3 @@ class WaitRandomSecMiddleware(object):
             return request
         else:
             return response
-# from random import *
-# import time
-# import logging
-#
-#
-# def process_request():
-#     waitsec = randint(1, 10)
-#     print ('Waiting for %s seconds to continue...' % str(waitsec))
-#     time.sleep(waitsec)
-#     print ('Waited')
-#     pass

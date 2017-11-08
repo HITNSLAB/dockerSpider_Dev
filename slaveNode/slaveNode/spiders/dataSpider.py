@@ -24,7 +24,8 @@ class DataSpider(RedisSpider):
         'SCHEDULER_QUEUE_CLASS': 'slaveNode.scrapy_redis_bf.queue.SpiderPriorityQueue',
         # 'ITEM_PIPELINES' :{'slaveNode.pipelines.SlavenodePipeline': 300}
     }
-    raw_parse_rules = get_data_parse_rules()
+    template_provider = TemplateProvider()
+    raw_parse_rules = template_provider.get_parse_rules(name)
 
     # pop url from redis mannully for using bloomfilter
     def start_requests(self):
@@ -36,24 +37,24 @@ class DataSpider(RedisSpider):
             yield Request(url=url, callback=self.myparse)
 
     def myparse(self, response):
-        logging.info(" Myparse Process Begin ".center(80, '-'))
+        self.check_new_rules()
+        self.logger.info(" Myparse Process Begin ".center(80, '-'))
         try:
-            if self.raw_parse_rules['mode'] == 'BeautifulSoup':
-                # Compile rules to eval string once only
-                if not hasattr(self, 'compiled_rules'):
-                    self.compiled_rules = {k: DataSpider.compose_rules(v, 'soup.', '') for k, v in
-                                           self.raw_parse_rules['rules'].items()}
+            if DataSpider.raw_parse_rules['mode'] == 'BeautifulSoup':
+                # # Compile rules to eval string once only
+                # if not hasattr(self, 'compiled_rules'):
+                #     self.update_compiled_rules()
                 yield self.bs_parse(response, self.compiled_rules)
-            elif self.raw_parse_rules['mode'] == 'xpath':
-                yield self.xpath_parse(response, self.raw_parse_rules['rules'])
+            elif DataSpider.raw_parse_rules['mode'] == 'xpath':
+                yield self.xpath_parse(response, DataSpider.raw_parse_rules['rules'])
         except exceptions.ResponseError as e:
-            logging.critical('myparse failed, exception: %s, message %s ,now shut down...' % (e, e.message))
+            self.logger.critical('myparse failed, exception: %s, message %s ,now shut down...' % (e, e.message))
             self.crawler.engine.close_spider(self, reason=e.message)
         except Exception as e:
-            logging.error('myparse failed, exception: %s, message %s ,skipped this item' % (Exception, e.message))
+            self.logger.error('myparse failed, exception: %s, message %s ,skipped this item' % (Exception, e.message))
 
     def bs_parse(self, response, rules):
-        logging.info(" BS4 Parse Begin ".center(80, '-'))
+        self.logger.info(" BS4 Parse Begin ".center(80, '-'))
         item = SlavenodeDataItem()
         soup = BeautifulSoup(response.body, 'lxml')
         for k, v in rules.items():
@@ -70,11 +71,29 @@ class DataSpider(RedisSpider):
             suf = suffix + suf
         return pre + rule['eval'] + suf
 
+    def update_compiled_rules(self):
+        self.compiled_rules = {k: DataSpider.compose_rules(v, 'soup.', '') for k, v in
+                               self.raw_parse_rules['rules'].items()}
+
+    def check_new_rules(self):
+        new_parse_rules = DataSpider.template_provider.get_parse_rules(DataSpider.name)
+        flag = False
+        if new_parse_rules != DataSpider.raw_parse_rules:
+            flag = True
+            self.logger.info('Found new template for %s' % self.name)
+            DataSpider.raw_parse_rules = new_parse_rules
+            self.logger.info('Now use new template for %s' % self.name)
+            self.logger.info(DataSpider.raw_parse_rules)
+
+        if DataSpider.raw_parse_rules['mode'] == 'BeautifulSoup':
+            if flag or not hasattr(self, 'compiled_rules'):
+                self.update_compiled_rules()
+
     def xpath_parse(self, response, rules):
-        logging.info(" XPath Parse Begin ".center(80, '-'))
+        self.logger.info(" XPath Parse Begin ".center(80, '-'))
         # sel = Selector(response)
         item = SlavenodeDataItem()
-        soup = BeautifulSoup(response, 'lxml')
+        # soup = BeautifulSoup(response, 'lxml')
         # item['title'] = sel.xpath('//span[@id="thread_subject"]/text()').extract()[0]
         # postList = sel.xpath('//div[@class="pl bm"]/div[1]//td[@class="t_f"]/text()').extract()
         # item['content'] = "".join(postList)
@@ -90,5 +109,5 @@ class DataSpider(RedisSpider):
     # some url will into 'parse', so i help it into 'mypase'
     def parse(self, response):
         url = response.url
-        logging.warning("may be lost and will try again:" + url)
+        self.logger.warning("may be lost and will try again:" + url)
         yield Request(url=url, callback=self.myparse)

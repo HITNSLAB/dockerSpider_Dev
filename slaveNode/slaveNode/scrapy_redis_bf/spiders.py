@@ -1,6 +1,6 @@
 from scrapy import Spider, signals
 from scrapy.exceptions import DontCloseSpider
-
+from parse_rules import TemplateProvider
 from . import connection
 
 

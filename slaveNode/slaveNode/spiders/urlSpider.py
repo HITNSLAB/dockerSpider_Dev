@@ -7,14 +7,14 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy_redis.spiders import RedisCrawlSpider
 from slaveNode.items import SlavenodeUrlItem
 from parse_rules import *
-import logging
 from redis import exceptions
 
 
 class UrlSpider(RedisCrawlSpider):
     name = "urlSpider"
     redis_key = 'urlSpider:start_urls'
-    raw_parse_rules = get_url_parse_rules()
+    template_provider = TemplateProvider()
+    raw_parse_rules = template_provider.get_parse_rules(name)
     if 'process_value' in raw_parse_rules['link_extractor']:
         raw_parse_rules['link_extractor']['process_value'] = eval(raw_parse_rules['link_extractor']['process_value'])
 
@@ -29,6 +29,7 @@ class UrlSpider(RedisCrawlSpider):
     )
 
     def parse_url(self, response):
+
         sel = Selector(response)
         item = SlavenodeUrlItem()
         urls = sel.xpath(self.raw_parse_rules['rules']).extract()
@@ -40,14 +41,15 @@ class UrlSpider(RedisCrawlSpider):
             try:
                 self.process_func = eval(self.raw_parse_rules['process_value'])
             except Exception as e:
-                logging.error("eval rules['process_value'] failed, exception: %s, message: %s, remain raw url..." % (
+                self.logger.error(
+                    "eval rules['process_value'] failed, exception: %s, message: %s, remain raw url..." % (
                     Exception, e.message))
 
         if hasattr(self, 'process_func') and callable(self.process_func):
             try:
                 item['url'] = [self.process_func(v) for v in urls]
             except Exception as e:
-                logging.error('func call "process_func" failed, exception: %s, message: %s, remain raw url...' % (
+                self.logger.error('func call "process_func" failed, exception: %s, message: %s, remain raw url...' % (
                     Exception, e.message))
                 item['url'] = urls
         else:
@@ -56,7 +58,12 @@ class UrlSpider(RedisCrawlSpider):
         try:
             yield item
         except exceptions.ResponseError as e:
-            logging.critical('parse_url failed, exception: %s, message %s ,now shut down...' % (e, e.message))
+            self.logger.critical('parse_url failed, exception: %s, message %s ,now shut down...' % (e, e.message))
             self.crawler.engine.close_spider(self, reason=e.message)
         except Exception as e:
-            logging.error('parse_url failed, exception: %s, message %s ,skipped this item' % (Exception, e.message))
+            self.logger.error('parse_url failed, exception: %s, message %s ,skipped this item' % (Exception, e.message))
+
+            # def check_new_rules(self):
+            #     new_parse_rules = UrlSpider.template_provider.get_parse_rules(UrlSpider.name)
+            #     if new_parse_rules != UrlSpider.raw_parse_rules:
+            #         UrlSpider.raw_parse_rules = new_parse_rules

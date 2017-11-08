@@ -15,8 +15,9 @@ class SimpleHash(object):
 
 
 class BloomFilter(object):
+    logger = logging.getLogger(__name__)
     def __init__(self, server, key, blockNum=1):
-        logging.info(' BloomFilter Begin '.center(80, '-'))
+        self.logger.info(' BloomFilter Begin '.center(80, '-'))
 
         self.bit_size = 1 << 29  # the max length of String in Redis is 512M，now set 64M,m=2^29=536,870,912,n=24,000,000
         # self.seeds = [5, 7, 11, 13, 31]
@@ -30,7 +31,7 @@ class BloomFilter(object):
 
     def isContains(self, str_input):
         if not str_input:
-            logging.info(' BloomFilter: Not str_input '.center(80, '-'))
+            self.logger.info(' BloomFilter: Not str_input '.center(80, '-'))
             return False
         ret = True
 
@@ -39,12 +40,12 @@ class BloomFilter(object):
             loc = f.hash(str_input)
             ret = ret & self.server.getbit(name, loc)
 
-        logging.info(str(' BloomFilter: Check str_input = ' + str_input).center(80, '-'))
-        logging.info(str(' BloomFilter: ret = ' + str(ret) + ' ').center(80, '-'))
+        self.logger.info(str(' BloomFilter: Check str_input = ' + str_input).center(80, '-'))
+        self.logger.info(str(' BloomFilter: ret = ' + str(ret) + ' ').center(80, '-'))
         return ret
 
     def insert(self, str_input):
-        logging.info(str(' BloomFilter: Insert str_input = ' + str_input).center(80, '-'))
+        self.logger.info(str(' BloomFilter: Insert str_input = ' + str_input).center(80, '-'))
         name = self.key + str(int(str_input[0:2], 16) % self.blockNum)
         for f in self.hashfunc:
             loc = f.hash(str_input)

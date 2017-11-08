@@ -38,7 +38,7 @@ services:
       gcr.io/gcloud-159107/slavenode
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 0
       restart_policy:
         condition: on-failure
         delay: 10s
