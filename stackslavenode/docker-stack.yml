@@ -1,23 +1,29 @@
-version: '3.3'
+version: '3.4'
 services:
   dataspider:
     image:
-      gcr.io/gcloud-159107/slavenode
+      leeyanzhe/slavenode
+      # gcr.io/gcloud-159107/slavenode
     deploy:
       mode: global
 #      replicas: 6
-      # resources:
-      #   limits:
-      #     cpus: '0.001'
-      #     memory: 500M
-      #   reservations:
-      #     cpus: '0.0001'
-      #     memory: 100M
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 200M
+        # reservations:
+        #   cpus: '0.1'
+        #   memory: 100M
       restart_policy:
         condition: on-failure
         delay: 10s
         max_attempts: 5
         window: 60s
+      update_config:
+        parallelism: 2
+        failure_action: rollback
+        delay: 10s
+        order: stop-first
     # healthcheck:
     #   test: ["CMD", "curl", "-f", "http://localhost"]
     #   interval: 1m30s
