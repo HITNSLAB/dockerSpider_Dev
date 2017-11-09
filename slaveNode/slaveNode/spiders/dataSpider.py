@@ -73,7 +73,7 @@ class DataSpider(RedisSpider):
         soup = BeautifulSoup(response.body, 'lxml')
         for k, v in rules.items():
             item[k] = eval(v)
-        yield item
+        return item
 
     def xpath_parse(self, response, rules):
         self.logger.info(" XPath Parse Begin ".center(80, '-'))
@@ -92,7 +92,7 @@ class DataSpider(RedisSpider):
         # item['title'] = sel.xpath('//a[@class="question-hyperlink"]/text()').extract()
         # item['content']=sel.xpath('//')
         # log.msg("TITLE IS --- "+item['title']+" ---", level=log.INFO)
-        yield item
+        return item
 
     # some url will into 'parse', so i help it into 'mypase'
     def parse(self, response):
