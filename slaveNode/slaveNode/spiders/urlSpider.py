@@ -8,6 +8,7 @@ from scrapy_redis.spiders import RedisCrawlSpider
 from slaveNode.items import SlavenodeUrlItem
 from parse_rules import *
 from redis import exceptions
+from scrapy.http import Request
 
 
 class UrlSpider(RedisCrawlSpider):
@@ -57,6 +58,12 @@ class UrlSpider(RedisCrawlSpider):
 
         try:
             yield item
+        except exceptions.ConnectionError as e:
+            self.logger.error(
+                'Redis connection error when parsing url, exception %s, message <%s>, response url <%s>, retrying...' % (
+                    Exception, e.message, response.url)
+            )
+            yield Request(url=response.url, callback=self.myparse)
         except exceptions.ResponseError as e:
             self.logger.critical('parse_url failed, exception: %s, message %s ,now shut down...' % (e, e.message))
             self.crawler.engine.close_spider(self, reason=e.message)

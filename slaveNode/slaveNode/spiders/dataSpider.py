@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
-
-import scrapy, sys
 from scrapy.selector import Selector
 from slaveNode.scrapy_redis_bf.spiders import RedisSpider
 from slaveNode.items import SlavenodeDataItem
 from scrapy.http import Request
-import traceback
-from bs4 import BeautifulSoup
-from datetime import datetime
-import urllib
 from parse_rules import *
+from bs4 import BeautifulSoup
+from pymongo import errors
+from datetime import datetime
+from redis import exceptions
+import traceback
+import scrapy, sys
+import urllib
+
 import logging
 import re
-
-from redis import exceptions
 
 
 class DataSpider(RedisSpider):
@@ -38,7 +38,7 @@ class DataSpider(RedisSpider):
 
     def myparse(self, response):
         self.check_new_rules()
-        self.logger.info(" Myparse Process Begin ".center(80, '-'))
+        self.logger.info(" Data Parse Process Begin ".center(80, '-'))
         try:
             if DataSpider.raw_parse_rules['mode'].lower() == 'beautifulsoup':
                 # # Compile rules to eval string once only
@@ -47,11 +47,24 @@ class DataSpider(RedisSpider):
                 yield self.bs_parse(response, self.compiled_rules)
             elif DataSpider.raw_parse_rules['mode'].lower() == 'xpath'.lower():
                 yield self.xpath_parse(response, DataSpider.raw_parse_rules['rules'])
+        except exceptions.ConnectionError as e:
+            self.logger.error(
+                'Redis connection error when parsing data, exception %s, message <%s>, response url <%s>, retrying...' % (
+                    Exception, e.message, response.url)
+            )
+            yield Request(url=response.url, callback=self.myparse)
+        except errors.ConnectionFailure as e:
+            self.logger.error(
+                'MongoDB connection error when parsing data, exception %s, message <%s>, response url <%s>, retrying...' % (
+                    Exception, e.message, response.url)
+            )
+            yield Request(url=response.url, callback=self.myparse)
         except exceptions.ResponseError as e:
-            self.logger.critical('myparse failed, exception: %s, message %s ,now shut down...' % (e, e.message))
+            self.logger.critical('Data parse failed, exception: %s, message %s ,now shut down...' % (e, e.message))
             self.crawler.engine.close_spider(self, reason=e.message)
+
         except Exception as e:
-            self.logger.error('myparse failed, exception %s, message <%s>, response url <%s>, skipped this item' % (
+            self.logger.error('Data parse failed, exception %s, message <%s>, response url <%s>, skipped this item' % (
                 Exception, e.message, response.url))
 
     def bs_parse(self, response, rules):
@@ -60,7 +73,7 @@ class DataSpider(RedisSpider):
         soup = BeautifulSoup(response.body, 'lxml')
         for k, v in rules.items():
             item[k] = eval(v)
-        return item
+        yield item
 
     def xpath_parse(self, response, rules):
         self.logger.info(" XPath Parse Begin ".center(80, '-'))
