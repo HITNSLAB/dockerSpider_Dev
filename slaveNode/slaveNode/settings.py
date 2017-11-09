@@ -98,10 +98,10 @@ SCHEDULER_PERSIST = True
 SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.SpiderPriorityQueue'
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 REDIS_URL = None
-REDIS_HOST = '47.90.122.197'
+REDIS_HOST = 'nist.lee-service.com'
 REDIS_PORT = 16379
 FILTER_URL = None
-FILTER_HOST = '47.90.122.197'
+FILTER_HOST = 'nist.lee-service.com'
 FILTER_PORT = 16379
 
 # Config about the Database
@@ -113,11 +113,11 @@ MONGO_SETTINGS = {
         'hk1.lee-service.com',
         'hk1-s.lee-service.com',
         'hk2-s.lee-service.com',
-        'hk3-s.lee-service.com',
+        'sg1-s.lee-service.com',
         'us1.lee-service.com'
     ],
-    "user": 'root',
-    'passwd': '7ODH-BSED-681u',
+    "user": 'nist',
+    'passwd': 'HITnsLAB!',
     'dbname': 'spiderDataItem',
     'colname': 'website',
     'options': {
@@ -130,13 +130,3 @@ MONGO_SETTINGS = {
         'ssl_cert_reqs': ssl.CERT_REQUIRED
     }
 }
-
-TEMPLATE_API_GATEWAY = {
-    'urlSpider': 'https://yanzhe.org/urlparserules.txt',
-    'dataSpider': 'https://yanzhe.org/dataparserules.txt'
-}
-
-# DB_MONGO_HOST = 'hk1.lee-service.com'
-# DB_MONGO_PORT = 27017
-# DB_MONGO_DBS = 'spiderDataItem'
-# DB_MONGO_TABLE = 'website'

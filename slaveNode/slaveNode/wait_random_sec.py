@@ -8,6 +8,7 @@ import logging
 
 from random import *
 import time
+from scrapy.http import Request
 
 
 class WaitRandomSecMiddleware(object):
@@ -17,6 +18,7 @@ class WaitRandomSecMiddleware(object):
             logging.info('Waiting for %s seconds to continue...' % str(waitsec))
             time.sleep(waitsec)
             logging.info('Waited %s seconds, now continue...' % str(waitsec))
-            return request
+            return Request(url=request.url, dont_filter=True)
+            # return request
         else:
             return response
