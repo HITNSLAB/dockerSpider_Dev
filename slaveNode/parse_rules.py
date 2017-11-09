@@ -1,6 +1,5 @@
 import base64
 import json
-import logging
 import time
 
 from scrapy.utils.log import *

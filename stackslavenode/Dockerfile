@@ -11,6 +11,6 @@ RUN apt -y update \
     && pip2 install scrapy_redis bs4 pymongo \
     && apt -y install tor proxychains
 
-ADD slaveNode.tar ./
+ADD ../slaveNode ./
 
 WORKDIR slaveNode
