@@ -97,6 +97,7 @@ SCHEDULER = "scrapy_redis.scheduler.Scheduler"
 SCHEDULER_PERSIST = True
 SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.SpiderPriorityQueue'
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+DUPEFILTER_DEBUG = True
 REDIS_URL = None
 REDIS_HOST = 'nist.lee-service.com'
 REDIS_PORT = 16379

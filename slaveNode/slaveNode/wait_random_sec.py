@@ -2,10 +2,6 @@
 
 import logging
 
-# 避免被ban策略之一：使用useragent池。
-# 使用注意：需在settings.py中进行相应的设置。
-
-
 from random import *
 import time
 from scrapy.http import Request
