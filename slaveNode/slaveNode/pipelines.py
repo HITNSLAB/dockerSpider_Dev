@@ -15,6 +15,8 @@ import logging
 from scrapy_redis import connection, defaults
 from slaveNode.items import SlavenodeUrlItem, SlavenodeDataItem
 from urllib import quote_plus
+from scrapy.http import Request
+from scrapy.exceptions import DropItem
 
 default_serialize = ScrapyJSONEncoder().encode
 
@@ -49,6 +51,7 @@ class SlavenodePipeline(object):
         self.server = server
         self.key = key
         self.serialize = serialize_func
+        self.logger = logging.getLogger(__name__)
 
     @classmethod
     def from_settings(cls, settings):
@@ -75,7 +78,8 @@ class SlavenodePipeline(object):
             elif isinstance(item, SlavenodeDataItem):
                 return deferToThread(self._process_item_data, item, spider)
         except Exception as e:
-            logging.error('Pipline process_item failed, exception: %s, message %s ,skipped this item' % (Exception, e.message))
+            self.logger.error(
+                'Pipline process_item failed, exception: %s, message %s ,skipped this item' % (Exception, e.message))
 
             # send the url into next level's start_urls
 
@@ -95,8 +99,13 @@ class SlavenodePipeline(object):
         try:
             self.collection.insert(dict(item))
         except errors.DuplicateKeyError as e:
-            logging.error(
+            raise DropItem(
                 'Item was already in DB, exception: %s, message %s ,skipped this item' % (Exception, e.message))
+        except errors.ConnectionFailure as e:
+            self.logger.error(
+                'MongoDB connection error when saving data, exception %s, message <%s>, skipped this item' % (
+                    Exception, e.message)
+            )
         return item
 
     def item_key(self, item, spider):

@@ -53,12 +53,6 @@ class DataSpider(RedisSpider):
                     Exception, e.message, response.url)
             )
             yield Request(url=response.url, callback=self.myparse)
-        except errors.ConnectionFailure as e:
-            self.logger.error(
-                'MongoDB connection error when parsing data, exception %s, message <%s>, response url <%s>, retrying...' % (
-                    Exception, e.message, response.url)
-            )
-            yield Request(url=response.url, callback=self.myparse)
         except exceptions.ResponseError as e:
             self.logger.critical('Data parse failed, exception: %s, message %s ,now shut down...' % (e, e.message))
             self.crawler.engine.close_spider(self, reason=e.message)
