@@ -69,7 +69,7 @@ services:
         mode: 0400
     labels:
       com.lee-service.description: "Url_Provider"
-    command: ["proxychains","scrapy","crawl","urlSpider"]
+    command: ["scrapy","crawl","urlSpider"]
 secrets:
   sslkey:
     file: ./credentials/mongokey.rsa.pem
