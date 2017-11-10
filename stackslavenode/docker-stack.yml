@@ -96,7 +96,10 @@ services:
     labels:
       com.lee-service.description: "webui_manager"
     ports:
-      - "0.0.0.0:18888:8000"
+      - target: 8000
+        published: 18888
+        protocol: tcp
+        mode: host
 
   cadvisor:
     image:
