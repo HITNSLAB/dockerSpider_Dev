@@ -25,7 +25,7 @@ data_page_url = ''
 link_list = []
 clients = []
 # cadvisorHost = "http://127.0.0.1:8090"
-cadvisorHost = "http://cadvisor:8090"
+cadvisorHost = "http://cadvisor:8080"
 
 
 # Create your views here.
