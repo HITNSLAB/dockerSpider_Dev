@@ -169,13 +169,13 @@
 	};
 	$.dialog.get = function (id) {
 		return $.dialog.list[id];
-	}
+    };
 	//关闭所有对话框，参数o-布尔值，是否静默关闭
 	$.dialog.close = function (o) {
 		for (var i in $.dialog.list) {
 			$.dialog.list[i].close(o);
-		};
-	};
+        }
+    };
 	$.dialog.fn = $.dialog.prototype = {
 		version : '1.0.0',
 		title : function(v, d) {
@@ -380,8 +380,8 @@
 									next.before(v);
 								} else if (parent[0]) {
 									parent.append(v);
-								};
-								v[0].style.display = display;
+                                }
+                                v[0].style.display = display;
 								e.recovery = null;
 							};
 							//<--
@@ -862,8 +862,8 @@
 					if (p.length <= 0) {
 						e.wrapper.css('marginLeft', 0);
 						clearInterval(t);
-					};
-				};
+                    }
+                };
 			t = setInterval(f, 12);
 			return e;
 		},
@@ -1125,7 +1125,7 @@
 		if (!$.isPlainObject(o)) o = {};
 		o.refer = o.trigger = this;
 		return $.dialog(o);
-	}
+    };
 $.dialog.template =
 	'<table class="jQ_Dialog">'
 +		'<thead>'

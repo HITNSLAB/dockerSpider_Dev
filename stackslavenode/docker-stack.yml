@@ -2,7 +2,7 @@ version: '3.4'
 services:
   dataspider:
     image:
-      leeyanzhe/slavenode
+      leeyanzhe/dockerspider_slavenode
       # gcr.io/gcloud-159107/slavenode
     deploy:
       mode: global
@@ -35,13 +35,11 @@ services:
         mode: 0400
     labels:
       com.lee-service.description: "data_collector"
-      # com.lee-service.department: "Finance"
-      # com.lee-service.label-with-empty-value: ""
     command: ["scrapy","crawl","dataSpider"]
 
   urlspider:
     image:
-      leeyanzhe/slavenode
+      leeyanzhe/dockerspider_slavenode
       # gcr.io/gcloud-159107/slavenode
     deploy:
       mode: replicated
@@ -70,6 +68,33 @@ services:
     labels:
       com.lee-service.description: "url_provider"
     command: ["scrapy","crawl","urlSpider"]
+
+  webcontrol:
+    image:
+      leeyanzhe/dockerspider_webcontrol
+      # gcr.io/gcloud-159107/slavenode
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 150M
+        # reservations:
+        #   cpus: '0.1'
+        #   memory: 100M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 60s
+      update_config:
+        parallelism: 2
+        failure_action: rollback
+        delay: 10s
+        order: stop-first
+    labels:
+      com.lee-service.description: "webui_manager"
 
   cadvisor:
     image:

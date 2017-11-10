@@ -28,9 +28,9 @@ angular.module('ng-echarts', [])
 							});
 						}
 					}
-				};
+                }
 
-				//自定义参数 - config
+                //自定义参数 - config
 				// event 定义事件
 				// theme 主题名称
 				// dataLoaded 数据是否加载

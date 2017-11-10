@@ -1,5 +1,5 @@
 function fullAvatarEditor() {
-	var id				= 'fullAvatarEditor'			//flash文件的ID
+    var id = 'fullAvatarEditor';			//flash文件的ID
 	var file			= 'plugins/fullavatareditor/fullAvatarEditor.swf';		//flash文件的路径
 	var	version			= "10.1.0";						//播放该flash所需的最低版本
 	var	expressInstall	= 'expressInstall.swf';			//expressInstall.swf的路径

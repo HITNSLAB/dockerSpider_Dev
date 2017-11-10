@@ -311,7 +311,7 @@
                             func: "pageUrl",
                             csrfmiddlewaretoken: '{{ csrf_token }}'
                         }, function (data, status) {
-                            pageurl = data
+                            pageurl = data;
                             $("#ifame-page").attr("src", pageurl);
                         });
                     }

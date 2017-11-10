@@ -129,8 +129,7 @@ angular.module('NGEchartsTest',['ng-echarts'])
     .controller('Ctrl2',function($scope,$timeout,eventbus){
         function onClick(params){
             eventbus.emitMsg('myMsg',params.name);
-        };
-
+        }
         $scope.mapConfig = _.cloneDeep($scope.baseConfig);
         $scope.mapConfig.event = [{click:onClick}];
         $scope.mapConfig.dataLoaded = false;
@@ -590,5 +589,5 @@ angular.module('NGEchartsTest',['ng-echarts'])
                 $scope.scatterOption.title.text = '【'+m+'】男性女性身高体重分布';
             });
         },$scope);
-    })
+    });
 

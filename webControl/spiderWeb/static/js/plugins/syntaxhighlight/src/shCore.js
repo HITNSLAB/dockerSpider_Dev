@@ -330,9 +330,9 @@ var sh = {
 							result += "<param name='" + name + "' value='" + list[name] + "'/>";
 							
 						return result;
-					};
-					
-					function attributes(list)
+                    }
+
+                    function attributes(list)
 					{
 						var result = '';
 						
@@ -340,9 +340,9 @@ var sh = {
 							result += " " + name + "='" + list[name] + "'";
 							
 						return result;
-					};
-					
-					var args1 = {
+                    }
+
+                    var args1 = {
 							width				: config.toolbarItemWidth,
 							height				: config.toolbarItemHeight,
 							id					: highlighterId + '_clipboard',
@@ -462,8 +462,8 @@ var sh = {
 						for(var i = 0; i < links.length; i++)
 							if(links[i].rel.toLowerCase() == 'stylesheet' && /shCore\.css$/.test(links[i].href))
 								destDoc.write('<link type="text/css" rel="stylesheet" href="' + links[i].href + '"></link>');
-					};
-				};
+                    }
+                };
 			},
 
 			/** Command to display the about dialog window. */
@@ -595,7 +595,7 @@ var sh = {
 				obj[type + func] = function()
 				{
 					obj['e' + type + func](window.event);
-				}
+                };
 				obj.attachEvent('on' + type, obj[type + func]);
 			}
 			else 
@@ -895,9 +895,9 @@ var sh = {
 					+ spaces.substr(0, count)
 					+ line.substr(pos + 1, line.length) // pos + 1 will get rid of the tab
 					;
-			};
-	
-			// Go through all the lines and do the 'smart tabs' magic.
+            }
+
+            // Go through all the lines and do the 'smart tabs' magic.
 			code = sh.utils.eachLine(code, function(line)
 			{
 				if (line.indexOf(tab) == -1) 
@@ -955,7 +955,7 @@ var sh = {
 		unindent: function(str)
 		{
 			var lines = sh.utils.fixInputString(str).split('\n'),
-				indents = new Array(),
+                indents = [],
 				regex = /^\s*/,
 				min = 1000
 				;
@@ -1026,9 +1026,9 @@ var sh = {
 			function defaultAdd(match, regexInfo)
 			{
 				return [new sh.Match(match[0], match.index, regexInfo.css)];
-			};
-			
-			var index = 0,
+            }
+
+            var index = 0,
 				match = null,
 				result = [],
 				func = regexInfo.func ? regexInfo.func : defaultAdd
@@ -1139,9 +1139,9 @@ var sh = {
 				result.push(source[i]);
 				
 			return result;
-		};
-		
-		var elements = element ? [element] : toArray(document.getElementsByTagName(sh.config.tagName)), 
+        }
+
+        var elements = element ? [element] : toArray(document.getElementsByTagName(sh.config.tagName)),
 			propertyName = 'innerHTML', 
 			highlighter = null,
 			conf = sh.config
@@ -1325,7 +1325,7 @@ sh.HtmlScript.prototype.highlight = function(code, params)
 {
 	this.xmlBrush.highlight(code, params);
 	this.div = this.xmlBrush.div;
-}
+};
 
 /**
  * Main Highlither class.
@@ -1403,7 +1403,7 @@ sh.Highlighter.prototype = {
 				var itemJ = matches[j];
 				
 				if (itemJ === null) 
-					continue;
+
 				else if (itemJ.index > itemIEndPos) 
 					break;
 				else if (itemJ.index == itemI.index && itemJ.length > itemI.length)
@@ -1495,9 +1495,9 @@ sh.Highlighter.prototype = {
 		{
 			var result = match ? (match.brushName || brushName) : brushName;
 			return result ? result + ' ' : '';
-		};
-		
-		// Finally, go through the final list of matches and pull the all
+        }
+
+        // Finally, go through the final list of matches and pull the all
 		// together adding everything in between that isn't a match.
 		for (var i = 0; i < matches.length; i++) 
 		{

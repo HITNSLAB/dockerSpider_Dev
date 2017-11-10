@@ -93,7 +93,7 @@ conf.anode.each(function(index){
                     fix: true,
                     where: '左'
                 }, function(){
-                    return
+                    return;
                     $('html, body').stop().animate({scrollTop: $('#ad336').offset().top}, 500, function(){
                         setTimeout(function(){
                             iss || fnpop({fix: false});
@@ -293,7 +293,7 @@ conf.anode.each(function(index){
                 layer.load(5, 0);
             break;
             case 23:
-                layer.load('加载中…', 2)
+                layer.load('加载中…', 2);
                 
             break;
             case 24:
@@ -405,7 +405,7 @@ $('.open').on('click', function(){
         case '':
             
         break;
-    };
+    }
 });
 
 //导航滚动
@@ -421,7 +421,7 @@ $('.layer_nav a').on('click',function(){
         case 'demo':
             $('html, body').animate({scrollTop : $('.layer_demo').offset().top},500);
         break;
-    };
+    }
 });
 
 //授权

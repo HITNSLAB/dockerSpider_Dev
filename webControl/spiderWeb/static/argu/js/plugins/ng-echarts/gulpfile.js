@@ -11,7 +11,7 @@ gulp.task('build',function(){
 
     gulp.src('src/**/*.js')
         .pipe(concat('ng-echarts.js'))
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('dist'));
 
     gulp.src('src/**/*.js')
         .pipe(concat('ng-echarts.min.js'))

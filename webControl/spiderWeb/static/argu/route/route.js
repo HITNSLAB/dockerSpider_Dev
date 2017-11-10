@@ -7,14 +7,14 @@ spiderControl.config(['$routeProvider','$locationProvider', '$stateProvider', fu
     url: '/taskCenter',
     templateUrl: '/static/argu/views/taskCenter.html',
     controller:'taskCenterCtrl'
-    }
+    };
 	
     var taskInfo = {
     name: 'taskInfo',
     url: '/taskInfo/:taskId',
     templateUrl: '/static/argu/views/taskInfo.html',
     controller:'taskInfoCtrl'
-    }
+    };
     
     $stateProvider.state(taskCenter);
     $stateProvider.state(taskInfo);

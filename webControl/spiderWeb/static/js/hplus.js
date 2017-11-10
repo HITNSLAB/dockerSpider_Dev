@@ -43,17 +43,17 @@ $(document).ready(function () {
     $('.navbar-minimalize').click(function () {
         $("body").toggleClass("mini-navbar");
         SmoothlyMenu();
-    })
+    });
 
     // tooltips
     $('.tooltip-demo').tooltip({
         selector: "[data-toggle=tooltip]",
         container: "body"
-    })
+    });
 
     // Move modal to body
     // Fix Bootstrap backdrop issu with animation.css
-    $('.modal').appendTo("body")
+    $('.modal').appendTo("body");
 
     // Full height of sidebar
     function fix_height() {
@@ -77,7 +77,7 @@ $(document).ready(function () {
         if(!$("body").hasClass('body-small')) {
             fix_height();
         }
-    })
+    });
 
     $("[data-toggle=popover]")
         .popover();
@@ -108,7 +108,7 @@ $(function() {
             $('body').removeClass('body-small')
         }
     })
-})
+});
 
 function SmoothlyMenu() {
     if (!$('body').hasClass('mini-navbar') || $('body').hasClass('body-small')) {
@@ -145,5 +145,5 @@ function WinMove() {
             opacity: 0.8,
         })
         .disableSelection();
-};
+}
 

@@ -148,7 +148,7 @@ spiderControl.controller('taskCenterCtrl', ['$scope', '$http', '$timeout', '$sta
     //任务的各项操作 运行 暂停 编辑 删除
     $scope.play = function (row) {
         console.log("play" + row);
-    }
+    };
 
     $scope.pause = function (row) {
         var modalInstance = $uibModal.open({
@@ -170,13 +170,13 @@ spiderControl.controller('taskCenterCtrl', ['$scope', '$http', '$timeout', '$sta
             }
         });
         console.log("pause" + row);
-    }
+    };
 
     $scope.edit = function (row) {
         $state.go('taskInfo', {
             taskId: row
         });
-    }
+    };
     $scope.trash = function (row) {
         //删除任务，需要遍历找到相对应的元素
         var whatIndex = null;
@@ -187,7 +187,7 @@ spiderControl.controller('taskCenterCtrl', ['$scope', '$http', '$timeout', '$sta
         });
         $scope.currentWorkspace.bsTableControl.options.data.splice(whatIndex, 1);
         console.log("trash" + row);
-    }
+    };
 
     $scope.changeCurrentWorkspace = function (wk) {
         $scope.currentWorkspace = wk;
@@ -247,7 +247,7 @@ spiderControl.controller('taskInfoCtrl', ['$rootScope', '$http', '$scope', '$loc
     $scope.submit = function () {
         console.log($scope.knobData);
         console.log($scope.info);
-    }
+    };
     $scope.knobData = [{
         value: 2,
         options: {
@@ -1857,17 +1857,17 @@ spiderControl.controller('taskInfoCtrl', ['$rootScope', '$http', '$scope', '$loc
     //任务的各项操作 运行 暂停 编辑 删除
     $scope.play = function (row) {
         console.log("play" + row);
-    }
+    };
 
     $scope.pause = function (row) {
         console.log("pause" + row);
-    }
+    };
 
     $scope.edit = function (row) {
         $state.go('taskInfo', {
             taskId: row
         });
-    }
+    };
     $scope.trash = function (row) {
         //删除任务，需要遍历找到相对应的元素
         var whatIndex = null;
@@ -1878,7 +1878,7 @@ spiderControl.controller('taskInfoCtrl', ['$rootScope', '$http', '$scope', '$loc
         });
         $scope.currentWorkspace.bsTableControl.options.data.splice(whatIndex, 1);
         console.log("trash" + row);
-    }
+    };
 
     $scope.changeCurrentWorkspace = function (wk) {
         $scope.currentWorkspace = wk;

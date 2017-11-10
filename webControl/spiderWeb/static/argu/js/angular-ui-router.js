@@ -2987,21 +2987,29 @@ var Transition = (function () {
         this.applyViewConfigs(router);
     }
     /** @hidden */
-    Transition.prototype.onBefore = function (criteria, callback, options) { return; };
+    Transition.prototype.onBefore = function (criteria, callback, options) {
+    };
     /** @inheritdoc */
-    Transition.prototype.onStart = function (criteria, callback, options) { return; };
+    Transition.prototype.onStart = function (criteria, callback, options) {
+    };
     /** @inheritdoc */
-    Transition.prototype.onExit = function (criteria, callback, options) { return; };
+    Transition.prototype.onExit = function (criteria, callback, options) {
+    };
     /** @inheritdoc */
-    Transition.prototype.onRetain = function (criteria, callback, options) { return; };
+    Transition.prototype.onRetain = function (criteria, callback, options) {
+    };
     /** @inheritdoc */
-    Transition.prototype.onEnter = function (criteria, callback, options) { return; };
+    Transition.prototype.onEnter = function (criteria, callback, options) {
+    };
     /** @inheritdoc */
-    Transition.prototype.onFinish = function (criteria, callback, options) { return; };
+    Transition.prototype.onFinish = function (criteria, callback, options) {
+    };
     /** @inheritdoc */
-    Transition.prototype.onSuccess = function (criteria, callback, options) { return; };
+    Transition.prototype.onSuccess = function (criteria, callback, options) {
+    };
     /** @inheritdoc */
-    Transition.prototype.onError = function (criteria, callback, options) { return; };
+    Transition.prototype.onError = function (criteria, callback, options) {
+    };
     /** @hidden
      * Creates the transition-level hook registration functions
      * (which can then be used to register hooks)
@@ -5832,19 +5840,25 @@ var UrlService = (function () {
         createProxyFunctions(urlRouter, this.rules, urlRouter, rulesFns);
         createProxyFunctions(urlRouter, this, urlRouter, syncFns);
     }
-    UrlService.prototype.url = function (newurl, replace, state) { return; };
+
+    UrlService.prototype.url = function (newurl, replace, state) {
+    };
     
     /** @inheritdoc */
-    UrlService.prototype.path = function () { return; };
+    UrlService.prototype.path = function () {
+    };
     
     /** @inheritdoc */
-    UrlService.prototype.search = function () { return; };
+    UrlService.prototype.search = function () {
+    };
     
     /** @inheritdoc */
-    UrlService.prototype.hash = function () { return; };
+    UrlService.prototype.hash = function () {
+    };
     
     /** @inheritdoc */
-    UrlService.prototype.onChange = function (callback) { return; };
+    UrlService.prototype.onChange = function (callback) {
+    };
     
     /**
      * Returns the current URL parts
@@ -5858,14 +5872,18 @@ var UrlService = (function () {
     };
     UrlService.prototype.dispose = function () { };
     /** @inheritdoc */
-    UrlService.prototype.sync = function (evt) { return; };
+    UrlService.prototype.sync = function (evt) {
+    };
     /** @inheritdoc */
-    UrlService.prototype.listen = function (enabled) { return; };
+    UrlService.prototype.listen = function (enabled) {
+    };
     
     /** @inheritdoc */
-    UrlService.prototype.deferIntercept = function (defer) { return; };
+    UrlService.prototype.deferIntercept = function (defer) {
+    };
     /** @inheritdoc */
-    UrlService.prototype.match = function (urlParts) { return; };
+    UrlService.prototype.match = function (urlParts) {
+    };
     return UrlService;
 }());
 /** @hidden */
@@ -6520,23 +6538,32 @@ var TransitionService = (function () {
      * @param options the registration options
      * @returns a function which deregisters the hook.
      */
-    TransitionService.prototype.onCreate = function (criteria, callback, options) { return; };
+    TransitionService.prototype.onCreate = function (criteria, callback, options) {
+    };
     /** @inheritdoc */
-    TransitionService.prototype.onBefore = function (criteria, callback, options) { return; };
+    TransitionService.prototype.onBefore = function (criteria, callback, options) {
+    };
     /** @inheritdoc */
-    TransitionService.prototype.onStart = function (criteria, callback, options) { return; };
+    TransitionService.prototype.onStart = function (criteria, callback, options) {
+    };
     /** @inheritdoc */
-    TransitionService.prototype.onExit = function (criteria, callback, options) { return; };
+    TransitionService.prototype.onExit = function (criteria, callback, options) {
+    };
     /** @inheritdoc */
-    TransitionService.prototype.onRetain = function (criteria, callback, options) { return; };
+    TransitionService.prototype.onRetain = function (criteria, callback, options) {
+    };
     /** @inheritdoc */
-    TransitionService.prototype.onEnter = function (criteria, callback, options) { return; };
+    TransitionService.prototype.onEnter = function (criteria, callback, options) {
+    };
     /** @inheritdoc */
-    TransitionService.prototype.onFinish = function (criteria, callback, options) { return; };
+    TransitionService.prototype.onFinish = function (criteria, callback, options) {
+    };
     /** @inheritdoc */
-    TransitionService.prototype.onSuccess = function (criteria, callback, options) { return; };
+    TransitionService.prototype.onSuccess = function (criteria, callback, options) {
+    };
     /** @inheritdoc */
-    TransitionService.prototype.onError = function (criteria, callback, options) { return; };
+    TransitionService.prototype.onError = function (criteria, callback, options) {
+    };
     /**
      * dispose
      * @internalapi

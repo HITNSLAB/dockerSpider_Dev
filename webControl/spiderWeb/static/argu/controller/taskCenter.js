@@ -208,7 +208,7 @@ spiderControl.controller('taskCenterCtrl', ['$scope', '$http', '$timeout', '$sta
         $scope.gettasklist();
         $('#table').bootstrapTable('refreshOptions');
 
-    }
+    };
 
     $scope.pause = function (row) {
         var modalInstance = $uibModal.open({
@@ -231,13 +231,13 @@ spiderControl.controller('taskCenterCtrl', ['$scope', '$http', '$timeout', '$sta
         });
         $scope.gettasklist();
         $('#table').bootstrapTable('refreshOptions');
-    }
+    };
 
     $scope.edit = function (row) {
         $state.go('taskInfo', {
             taskId: row
         });
-    }
+    };
     $scope.trash = function (row) {
         //删除任务，需要遍历找到相对应的元素
         var modalInstance = $uibModal.open({
@@ -261,7 +261,7 @@ spiderControl.controller('taskCenterCtrl', ['$scope', '$http', '$timeout', '$sta
                 }
             }
         });
-    }
+    };
 
     $scope.changeCurrentWorkspace = function (wk) {
         $scope.currentWorkspace = wk;
@@ -279,7 +279,7 @@ spiderControl.factory('MyData', function ($websocket, $q) {
     var _url = '';
     service.seturl = function (url) {
         _url = url;
-    }
+    };
 
     service.conn = function () {
         //var dataStream = $websocket('ws://' + window.location.host + '/ws_taskoutput/?TaskId=24915dca');
@@ -306,7 +306,7 @@ spiderControl.factory('MyData', function ($websocket, $q) {
         };
 
         return methods;
-    }
+    };
     return service;
 });
 
@@ -549,7 +549,7 @@ spiderControl.controller('taskInfoCtrl', ['$rootScope', '$http', '$scope', '$loc
         for (var k in o)
             if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         return fmt;
-    }
+    };
 
     function makeData(t) {
         var now = new Date();
