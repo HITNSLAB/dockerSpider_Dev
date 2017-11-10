@@ -95,6 +95,8 @@ services:
         order: stop-first
     labels:
       com.lee-service.description: "webui_manager"
+    ports:
+      - "8000:8000"
 
   cadvisor:
     image:
