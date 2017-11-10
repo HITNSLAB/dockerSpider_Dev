@@ -138,5 +138,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-stackslavenode/slaveNode/
 project_progress.txt

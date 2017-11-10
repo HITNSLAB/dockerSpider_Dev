@@ -12,7 +12,7 @@ from scrapy.downloadermiddlewares.useragent import UserAgentMiddleware
 
 class RotateUserAgentMiddleware(UserAgentMiddleware):
     def __init__(self, user_agent=''):
-        self.user_agent = user_agent
+        super(RotateUserAgentMiddleware, self).__init__(user_agent)
         self.logger = logging.getLogger(__name__)
 
     def process_request(self, request, spider):
