@@ -4,7 +4,7 @@ MAINTAINER NI YUANDONG & LI YANZHE
 
 WORKDIR /usr/src/app
 
-ADD ./webControl ./
+ADD ./webControl ./webControl
 # RUN pip2 install --no-cache-dir -r requirements.txt
 
 RUN apt -y update \
