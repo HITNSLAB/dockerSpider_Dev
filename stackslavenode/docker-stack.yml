@@ -34,7 +34,7 @@ services:
         target: mongokey
         mode: 0400
     labels:
-      com.lee-service.description: "Data_Collector"
+      com.lee-service.description: "data_collector"
       # com.lee-service.department: "Finance"
       # com.lee-service.label-with-empty-value: ""
     command: ["scrapy","crawl","dataSpider"]
@@ -68,8 +68,44 @@ services:
         target: mongokey
         mode: 0400
     labels:
-      com.lee-service.description: "Url_Provider"
+      com.lee-service.description: "url_provider"
     command: ["scrapy","crawl","urlSpider"]
+
+  cadvisor:
+    image:
+      google/cadvisor
+      # gcr.io/gcloud-159107/slavenode
+    deploy:
+      mode: global
+#      replicas: 1
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 100M
+        # reservations:
+        #   cpus: '0.1'
+        #   memory: 100M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 60s
+      update_config:
+        parallelism: 2
+        failure_action: rollback
+        delay: 10s
+        order: stop-first
+    labels:
+      com.lee-service.description: "cadvisor"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    ports:
+      - "8090:8080"
 secrets:
   sslkey:
     file: ./credentials/mongokey.rsa.pem
+
