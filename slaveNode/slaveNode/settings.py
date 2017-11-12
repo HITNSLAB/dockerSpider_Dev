@@ -99,10 +99,10 @@ SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.SpiderPriorityQueue'
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 DUPEFILTER_DEBUG = True
 REDIS_URL = None
-REDIS_HOST = 'nist.lee-service.com'
+REDIS_HOST = 'jp1-pkt.lee-service.com'
 REDIS_PORT = 16379
 FILTER_URL = None
-FILTER_HOST = 'nist.lee-service.com'
+FILTER_HOST = 'jp1-pkt.lee-service.com'
 FILTER_PORT = 16379
 
 # Config about the Database
