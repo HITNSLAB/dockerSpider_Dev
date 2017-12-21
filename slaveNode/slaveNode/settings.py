@@ -99,35 +99,55 @@ SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.SpiderPriorityQueue'
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 DUPEFILTER_DEBUG = True
 REDIS_URL = None
-REDIS_HOST = 'jp1-pkt.lee-service.com'
-REDIS_PORT = 16379
+# REDIS_HOST = 'jp1-pkt.lee-service.com'
+# REDIS_PORT = 16379
+
+REDIS_HOST = '172.29.152.200'
+REDIS_PORT = 6379
 FILTER_URL = None
-FILTER_HOST = 'jp1-pkt.lee-service.com'
-FILTER_PORT = 16379
+FILTER_HOST = '172.29.152.200'
+FILTER_PORT = 6379
 
 # Config about the Database
 import ssl
 
 MONGO_SETTINGS = {
     "host": [
-        'nist.lee-service.com',
-        'hk1.lee-service.com',
-        'hk1-s.lee-service.com',
-        'hk2-s.lee-service.com',
-        'sg1-s.lee-service.com',
-        'us1.lee-service.com'
+        '172.29.152.200',
+        '172.29.152.201',
+        '172.29.152.202',
+        '172.29.152.203',
     ],
-    "user": 'nist',
-    'passwd': 'HITnsLAB!',
+    "user": 'manager-rw',
+    'passwd': 'HITdbManager-rw!',
     'dbname': 'spiderDataItem',
-    'colname': 'website',
+    'colname': 'stackoverflow',
     'options': {
-        'replicaset': 'servrepl',
-        'readPreference': 'nearest',
-        'ssl': True,
-        # 'ssl_certfile': '/Users/liyanzhe/mongokey.rsa.pem',
-        # 'ssl_certfile': '/root/mongokey.rsa.pem',
-        'ssl_certfile': '/run/secrets/mongokey',
-        'ssl_cert_reqs': ssl.CERT_REQUIRED
+        'replicaset': 'nistrepl',
+        'readPreference': 'secondary',
     }
 }
+
+# MONGO_SETTINGS = {
+#     "host": [
+#         'nist.lee-service.com',
+#         'hk1.lee-service.com',
+#         'hk1-s.lee-service.com',
+#         'hk2-s.lee-service.com',
+#         'sg1-s.lee-service.com',
+#         'us1.lee-service.com'
+#     ],
+#     "user": 'nist',
+#     'passwd': 'HITnsLAB!',
+#     'dbname': 'spiderDataItem',
+#     'colname': 'website',
+#     'options': {
+#         'replicaset': 'servrepl',
+#         'readPreference': 'nearest',
+#         'ssl': True,
+#         # 'ssl_certfile': '/Users/liyanzhe/mongokey.rsa.pem',
+#         # 'ssl_certfile': '/root/mongokey.rsa.pem',
+#         'ssl_certfile': '/run/secrets/mongokey',
+#         'ssl_cert_reqs': ssl.CERT_REQUIRED
+#     }
+# }
