@@ -105,7 +105,7 @@ REDIS_URL = None
 REDIS_HOST = '172.29.152.200'
 REDIS_PORT = 6379
 FILTER_URL = None
-FILTER_HOST = '172.29.152.200'
+FILTER_HOST = '172.29.152.141'
 FILTER_PORT = 6379
 
 # Config about the Database
@@ -114,9 +114,13 @@ import ssl
 MONGO_SETTINGS = {
     "host": [
         '172.29.152.200',
-        '172.29.152.201',
-        '172.29.152.202',
-        '172.29.152.203',
+        '172.29.152.141',
+        '172.29.152.142',
+        '172.29.152.143',
+        '172.29.152.144',
+        '172.29.152.145',
+        '172.29.152.146',
+        '172.26.253.147'
     ],
     "user": 'manager-rw',
     'passwd': 'HITdbManager-rw!',
