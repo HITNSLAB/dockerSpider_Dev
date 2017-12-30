@@ -7,6 +7,7 @@ import time
 from scrapy.http import Request
 
 
+# import scrapy.downloadermiddlewares.retry.RetryMiddleware
 
 class WaitRandomSecMiddleware(object):
     def process_response(self, request, response, spider):

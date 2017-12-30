@@ -36,6 +36,7 @@ DOWNLOAD_DELAY = 0
 
 # Disable Telnet Console (enabled by default)
 TELNETCONSOLE_ENABLED = False
+RETRY_TIMES = 50
 
 # Override the default request headers:
 # DEFAULT_REQUEST_HEADERS = {
@@ -53,8 +54,10 @@ TELNETCONSOLE_ENABLED = False
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
     # 'slaveNode.middlewares.MyCustomDownloaderMiddleware': 543,
+    'scrapy.downloadermiddlewares.retry.RetryMiddleware': 550,
     'slaveNode.rotate_useragent.RotateUserAgentMiddleware': 500,
     'slaveNode.wait_random_sec.WaitRandomSecMiddleware': 543,
+    'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
     'slaveNode.midproxy.ProxyMiddleware': 100,
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
 }

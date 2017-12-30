@@ -5,12 +5,12 @@ services:
       leeyanzhe/dockerspider_slavenode
       # gcr.io/gcloud-159107/slavenode
     deploy:
-      mode: global
-#      replicas: 6
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 200M
+      mode: replicated
+      replicas: 60
+#      resources:
+#        limits:
+#          cpus: '0.5'
+#          memory: 200M
         # reservations:
         #   cpus: '0.1'
         #   memory: 100M
@@ -32,7 +32,7 @@ services:
     secrets:				#此secrets标签下的文件管理节点会自动发布到各子节点容器中
       - source: sslkey
         target: mongokey
-        mode: 0400
+#        mode: 0400
     labels:
       com.lee-service.description: "data_collector"
     command: ["scrapy","crawl","dataSpider"]
@@ -44,10 +44,10 @@ services:
     deploy:
       mode: replicated
       replicas: 1
-      resources:
-        limits:
-          cpus: '0.2'
-          memory: 150M
+#      resources:
+#        limits:
+#          cpus: '0.2'
+#          memory: 150M
         # reservations:
         #   cpus: '0.1'
         #   memory: 100M
@@ -64,7 +64,7 @@ services:
     secrets:
       - source: sslkey
         target: mongokey
-        mode: 0400
+#        mode: 0400
     labels:
       com.lee-service.description: "url_provider"
     command: ["scrapy","crawl","urlSpider"]
