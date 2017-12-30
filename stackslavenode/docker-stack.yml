@@ -43,7 +43,7 @@ services:
       # gcr.io/gcloud-159107/slavenode
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 10
 #      resources:
 #        limits:
 #          cpus: '0.2'
