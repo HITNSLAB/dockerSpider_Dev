@@ -18,44 +18,25 @@ class UrlSpider(RedisCrawlSpider):
     raw_parse_rules = template_provider.get_parse_rules(name)
     if 'process_value' in raw_parse_rules['link_extractor']:
         raw_parse_rules['link_extractor']['process_value'] = eval(raw_parse_rules['link_extractor']['process_value'])
-
     rules = (
         Rule(
             LinkExtractor(**raw_parse_rules['link_extractor']),
             callback='parse_url',
-            follow=True
+            follow=False,
+            process_links='push_follow_db'
         ),
         # Rule(LinkExtractor(allow=('forum-\d+-\d+\.html'), deny=('forum-\d+-1\.html')), callback='parse_url',
         #      follow=True),
     )
 
     def parse_url(self, response):
-
         sel = Selector(response)
         item = SlavenodeUrlItem()
         urls = sel.xpath(self.raw_parse_rules['rules']).extract()
         # remove duplicate url
         urls = list(set(urls))
         # return item['url'] as list, and divide the list in pipeline
-
-        if 'process_value' in self.raw_parse_rules and not hasattr(self, 'process_func'):
-            try:
-                self.process_func = eval(self.raw_parse_rules['process_value'])
-            except Exception as e:
-                self.logger.error(
-                    "eval rules['process_value'] failed, exception: %s, message <%s>, remain raw url..." % (
-                        Exception, e.message))
-
-        if hasattr(self, 'process_func') and callable(self.process_func):
-            try:
-                item['url'] = [self.process_func(v) for v in urls]
-            except Exception as e:
-                self.logger.error('func call "process_func" failed, exception: %s, message <%s>, remain raw url...' % (
-                    Exception, e.message))
-                item['url'] = urls
-        else:
-            item['url'] = urls
-
+        item['url'] = [self.fix_url(v) for v in urls]
         try:
             yield item
         except exceptions.ConnectionError as e:
@@ -75,3 +56,30 @@ class UrlSpider(RedisCrawlSpider):
             #     new_parse_rules = UrlSpider.template_provider.get_parse_rules(UrlSpider.name)
             #     if new_parse_rules != UrlSpider.raw_parse_rules:
             #         UrlSpider.raw_parse_rules = new_parse_rules
+
+    def push_follow_db(self, links):
+        # print 'Links = %s\n'%links
+        if links is not None:
+            # print 'rrrrr = %s\n' % links
+            for link in links:
+                self.server.rpush(self.redis_key, link.url)
+            return links
+
+    def fix_url(self, url):
+        if 'process_value' in self.raw_parse_rules and not hasattr(self, 'process_func'):
+            try:
+                self.process_func = eval(self.raw_parse_rules['process_value'])
+            except Exception as e:
+                self.logger.error(
+                    "eval rules['process_value'] failed, exception: %s, message <%s>, remain raw url..." % (
+                        Exception, e.message))
+
+        if hasattr(self, 'process_func') and callable(self.process_func):
+            try:
+                return self.process_func(url)
+            except Exception as e:
+                self.logger.error('func call "process_func" failed, exception: %s, message <%s>, remain raw url...' % (
+                    Exception, e.message))
+                return url
+        else:
+            return url
