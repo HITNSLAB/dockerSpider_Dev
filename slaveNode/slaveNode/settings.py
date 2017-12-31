@@ -18,10 +18,11 @@ NEWSPIDER_MODULE = 'slaveNode.spiders'
 # USER_AGENT = 'slaveNode (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+# ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-# CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 32
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
@@ -55,10 +56,10 @@ RETRY_TIMES = 50
 DOWNLOADER_MIDDLEWARES = {
     # 'slaveNode.middlewares.MyCustomDownloaderMiddleware': 543,
     'scrapy.downloadermiddlewares.retry.RetryMiddleware': 550,
-    'slaveNode.rotate_useragent.RotateUserAgentMiddleware': 500,
-    'slaveNode.wait_random_sec.WaitRandomSecMiddleware': 543,
+    'slaveNode.dl_middlewares.rotate_useragent.RotateUserAgentMiddleware': 500,
+    'slaveNode.dl_middlewares.wait_random_sec.WaitRandomSecMiddleware': 543,
     'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
-    'slaveNode.midproxy.ProxyMiddleware': 100,
+    'slaveNode.dl_middlewares.midproxy.ProxyMiddleware': 100,
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
 }
 
@@ -106,10 +107,10 @@ REDIS_URL = None
 # REDIS_HOST = 'jp1-pkt.lee-service.com'
 # REDIS_PORT = 16379
 
-REDIS_HOST = '172.29.152.200'
+REDIS_HOST = '172.29.152.142'
 REDIS_PORT = 6379
 FILTER_URL = None
-FILTER_HOST = '172.29.152.141'
+FILTER_HOST = '172.29.152.143'
 FILTER_PORT = 6379
 
 PROXY_PROVIDER_HOST = '172.29.152.141'

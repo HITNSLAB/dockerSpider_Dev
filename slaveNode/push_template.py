@@ -7,15 +7,26 @@ server = connection.from_settings(get_project_settings())
 
 url = r'''
 {
-    "rules": "//a[@class=\"question-hyperlink\"]/@href",
-    "process_value": "lambda v: \"https://stackoverflow.com\" + v",
+    "rules": "//a/@href",
     "mode": "xpath",
     "link_extractor": {
-        "restrict_xpaths": "//div[@class=\"pager fl\"]/a[@rel=\"next\"]",
-        "allow": "^https://stackoverflow.com/questions"
+        "unique":true
     }
 }
 '''
+
+# url = r'''
+# {
+#     "rules": "//a[@class=\"question-hyperlink\"]/@href",
+#     "rules": "//a/@href",
+#     "process_value": "lambda v: \"https://stackoverflow.com\" + v",
+#     "mode": "xpath",
+# "link_extractor": {
+#     "restrict_xpaths": "//div[@class=\"pager fl\"]/a[@rel=\"next\"]",
+#     "allow": "^https://stackoverflow.com/questions"
+# }
+# }
+# '''
 
 data = r'''
 {

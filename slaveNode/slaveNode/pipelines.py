@@ -86,11 +86,14 @@ class SlavenodePipeline(object):
     def _process_item_url(self, item, spider):
         # key = self.item_key(item, spider)
         # data = self.serialize(item)
-        key = 'dataSpider:start_urls'
+        # key = 'dataSpider:start_urls'
+        key = 'urlSpider:start_urls'
         urlList = item['url']
         # type(item['url'])  ->   list
-        for data in urlList:
-            self.server.rpush(key, data)
+        # for data in urlList:
+        #     self.server.rpush(key, data)
+        if len(urlList):
+            self.server.rpush(key, *urlList)
         return item
 
         # send the final data into mongoDB
