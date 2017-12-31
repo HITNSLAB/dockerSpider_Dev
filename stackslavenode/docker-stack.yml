@@ -2,7 +2,7 @@ version: '3.4'
 services:
   dataspider:
     image:
-      leeyanzhe/dockerspider_slavenode
+      leeyanzhe/dockerspider_slavenode:relation_spider
     deploy:
       mode: replicated
       replicas: 150
@@ -38,7 +38,7 @@ services:
 
   urlspider:
     image:
-      leeyanzhe/dockerspider_slavenode
+      leeyanzhe/dockerspider_slavenode:relation_spider
     deploy:
       mode: replicated
       replicas: 50
