@@ -19,7 +19,7 @@ class ProxyMiddleware(object):
             ProxyMiddleware.provider = redis.Redis(host=spider.settings.get('PROXY_PROVIDER_HOST'),
                                                    port=spider.settings.get('PROXY_PROVIDER_PORT'))
 
-        proxy_ip = "https://%s" % ProxyMiddleware.provider.lpop('ip_list')
+        proxy_ip = "https://%s" % ProxyMiddleware.provider.rpop('ip_list')
         request.meta['proxy'] = proxy_ip
         self.logger.info('Current used proxy: %s' % proxy_ip)
 
