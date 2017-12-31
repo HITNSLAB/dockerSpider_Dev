@@ -17,6 +17,7 @@ from slaveNode.items import SlavenodeUrlItem, SlavenodeDataItem
 from urllib import quote_plus
 from scrapy.http import Request
 from scrapy.exceptions import DropItem
+from slaveNode.utils.links_process import *
 
 default_serialize = ScrapyJSONEncoder().encode
 
@@ -101,6 +102,8 @@ class SlavenodePipeline(object):
     def _process_item_data(self, item, spider):
         try:
             self.collection.insert(dict(item))
+            print fix_url(item['url'])
+            spider.server.lrem(spider.temp_redis, num=0, value=item['url'])
         except errors.DuplicateKeyError as e:
             raise DropItem(
                 'Item was already in DB, exception: %s, message %s ,skipped this item' % (Exception, e.message))

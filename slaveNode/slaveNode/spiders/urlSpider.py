@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 
-import scrapy, sys
-import re
-from scrapy.selector import Selector
-from scrapy.spiders import Rule
-from scrapy.linkextractors import LinkExtractor
-from scrapy_redis.spiders import RedisCrawlSpider
-from slaveNode.items import SlavenodeUrlItem
-from parse_rules import *
+import urllib
+
 from redis import exceptions
 from scrapy.http import Request
-import urllib
+from scrapy.linkextractors import LinkExtractor
+from scrapy.selector import Selector
+from scrapy.spiders import Rule
+from scrapy_redis.spiders import RedisCrawlSpider
+from slaveNode.utils.links_process import *
+
+from parse_rules import *
+from slaveNode.items import SlavenodeUrlItem
 from slaveNode.scrapy_redis_bf.dupefilter import RFPDupeFilter
 
 
@@ -26,23 +27,23 @@ class UrlSpider(RedisCrawlSpider):
             LinkExtractor(**raw_parse_rules['link_extractor']),
             callback='parse_url',
             follow=False,
-            process_links='process_links'
+            process_links=process_links
             # process_links='push_follow_db'
         ),
     )
     filter = None
+
     def parse_url(self, response):
         if not UrlSpider.filter:
             UrlSpider.filter = RFPDupeFilter(self.server, self.settings.get('DUPEFILTER_KEY', '%(spider)s:dupefilter'))
-        sel = Selector(response)
         item = SlavenodeUrlItem()
-        urls = sel.xpath(self.raw_parse_rules['rules']).extract()
+        urls = Selector(response).xpath(self.raw_parse_rules['rules']).extract()
         # remove duplicate url
         # urls = list(set(urls))
         # return item['url'] as list, and divide the list in pipeline
         tp = []
         for v in urls:
-            res = self.fix_url(v)
+            res = fix_url(v)
             if res and not UrlSpider.filter.request_seen(Request(url=res)):
                 tp.append(res)
         item['url'] = set(tp)
@@ -66,36 +67,37 @@ class UrlSpider(RedisCrawlSpider):
             #     if new_parse_rules != UrlSpider.raw_parse_rules:
             #         UrlSpider.raw_parse_rules = new_parse_rules
 
-    def fix_url(self, url):
-        type, path = urllib.splittype(url)
-        host, _ = urllib.splithost(path)
-        if not type:
-            type = 'http'
+            # @staticmethod
+            # def fix_url(url):
+            #     type, path = urllib.splittype(url)
+            #     host, _ = urllib.splithost(path)
+            #     if not type:
+            #         type = 'http'
+            #
+            #     if type not in ('http', 'https') or not host:
+            #         return ''
+            #     return '%s://%s' % (type, host)
+            #
+            # def process_links(self, links):
+            #     for link in links:
+            #         link.url = self.fix_url(link.url)
+            #     return links
 
-        if type not in ('http', 'https') or not host:
-            return ''
-        return '%s://%s' % (type, host)
 
-    def process_links(self, links):
-        for link in links:
-            link.url = self.fix_url(link.url)
-        return links
-
-
-        # if 'process_value' in self.raw_parse_rules and not hasattr(self, 'process_func'):
-        #     try:
-        #         self.process_func = eval(self.raw_parse_rules['process_value'])
-        #     except Exception as e:
-        #         self.logger.error(
-        #             "eval rules['process_value'] failed, exception: %s, message <%s>, remain raw url..." % (
-        #                 Exception, e.message))
-        #
-        # if hasattr(self, 'process_func') and callable(self.process_func):
-        #     try:
-        #         return self.process_func(url)
-        #     except Exception as e:
-        #         self.logger.error('func call "process_func" failed, exception: %s, message <%s>, remain raw url...' % (
-        #             Exception, e.message))
-        #         return url
-        # else:
-        #     return url
+            # if 'process_value' in self.raw_parse_rules and not hasattr(self, 'process_func'):
+            #     try:
+            #         self.process_func = eval(self.raw_parse_rules['process_value'])
+            #     except Exception as e:
+            #         self.logger.error(
+            #             "eval rules['process_value'] failed, exception: %s, message <%s>, remain raw url..." % (
+            #                 Exception, e.message))
+            #
+            # if hasattr(self, 'process_func') and callable(self.process_func):
+            #     try:
+            #         return self.process_func(url)
+            #     except Exception as e:
+            #         self.logger.error('func call "process_func" failed, exception: %s, message <%s>, remain raw url...' % (
+            #             Exception, e.message))
+            #         return url
+            # else:
+            #     return url

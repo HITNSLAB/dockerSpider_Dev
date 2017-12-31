@@ -59,7 +59,7 @@ DOWNLOADER_MIDDLEWARES = {
     'slaveNode.dl_middlewares.rotate_useragent.RotateUserAgentMiddleware': 500,
     'slaveNode.dl_middlewares.wait_random_sec.WaitRandomSecMiddleware': 543,
     'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
-    'slaveNode.dl_middlewares.midproxy.ProxyMiddleware': 100,
+    # 'slaveNode.dl_middlewares.midproxy.ProxyMiddleware': 100,
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
 }
 
@@ -132,8 +132,8 @@ MONGO_SETTINGS = {
     ],
     "user": 'manager-rw',
     'passwd': 'HITdbManager-rw!',
-    'dbname': 'spiderDataItem',
-    'colname': 'stackoverflow',
+    'dbname': 'relationdb',
+    'colname': 'crawled',
     'options': {
         'replicaset': 'nistrepl',
         'readPreference': 'secondary',

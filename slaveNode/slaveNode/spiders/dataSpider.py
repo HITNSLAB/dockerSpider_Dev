@@ -14,11 +14,13 @@ import urllib
 
 import logging
 import re
+from slaveNode.utils.links_process import *
 
 
 class DataSpider(RedisSpider):
     name = "dataSpider"
-    redis_key = 'dataSpider:start_urls'
+    redis_key = 'urlSpider:start_urls'
+    temp_redis = 'dataSpider:start_urls'
     custom_settings = {
         'SCHEDULER': 'slaveNode.scrapy_redis_bf.scheduler.Scheduler',
         'SCHEDULER_QUEUE_CLASS': 'slaveNode.scrapy_redis_bf.queue.SpiderPriorityQueue',
@@ -34,6 +36,7 @@ class DataSpider(RedisSpider):
             if not url:
                 # break
                 break
+            self.server.lpush(self.temp_redis, url)
             yield Request(url=url, callback=self.myparse)
 
     def myparse(self, response):
@@ -73,19 +76,16 @@ class DataSpider(RedisSpider):
         self.logger.info(" XPath Parse Begin ".center(80, '-'))
         item = SlavenodeDataItem()
         sel = Selector(response)
-        for k, v in rules.items():
-            item[k] = sel.xpath(v).extract()
-        # soup = BeautifulSoup(response, 'lxml')
-        # item['title'] = sel.xpath('//span[@id="thread_subject"]/text()').extract()[0]
-        # postList = sel.xpath('//div[@class="pl bm"]/div[1]//td[@class="t_f"]/text()').extract()
-        # item['content'] = "".join(postList)
-        # item['forum'] = sel.xpath('//div[@class="bm cl"]/div[@class="z"]/a[4]/text()').extract()[0]
-        # item['author'] = sel.xpath('//div[@class="authi"]/a[@class="xw1"]/text()').extract()[0]
-        # item['datetime'] = sel.xpath('//div[@class="pti"]/div[@class="authi"]/em/text()').extract()[0][4:]
-        # item['title'] = sel.xpath('//div[@class="body",role="main"]/text()').extract()
-        # item['title'] = sel.xpath('//a[@class="question-hyperlink"]/text()').extract()
-        # item['content']=sel.xpath('//')
-        # log.msg("TITLE IS --- "+item['title']+" ---", level=log.INFO)
+        for k, spec in rules.items():
+            if spec['raw_expr']:
+                item[k] = eval(spec['eval'])
+            else:
+                res_sel = sel.xpath(spec['eval'])
+                if spec['re']:
+                    item[k] = res_sel.re(spec['re'])
+                else:
+                    item[k] = [v.strip() for v in res_sel.extract() if re.search(r'\S+', v)]
+                    # item[k] = res_sel.extract()
         return item
 
     # some url will into 'parse', so i help it into 'mypase'
