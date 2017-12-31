@@ -21,32 +21,32 @@ data = r'''
     "rules": {
         "url": {
             "raw_expr": true,
-            "re": false,
+            "to_str": false,
             "eval": "fix_url(response.url)"
         },
         "body": {
             "raw_expr": false,
-            "re": false,
-            "eval": "/html/body"
+            "to_str": false,
+            "eval": "/html/body/descendant-or-self::*/text()[name(..)!=\"script\"][name(..)!=\"style\"][normalize-space()]"
         },
         "head": {
             "raw_expr": false,
-            "re": false,
+            "to_str": false,
             "eval": "/html/head"
         },
         "meta": {
             "raw_expr": false,
-            "re": false,
+            "to_str": false,
             "eval": "/html/head/meta"
         },
         "site": {
             "raw_expr": false,
-            "re": false,
+            "to_str": false,
             "eval": "/html/head/title/text()"
         },
         "title": {
             "raw_expr": false,
-            "re": false,
+            "to_str": false,
             "eval": "//a/@title"
         }
     },

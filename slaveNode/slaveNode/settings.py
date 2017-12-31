@@ -22,7 +22,7 @@ NEWSPIDER_MODULE = 'slaveNode.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 32
+# CONCURRENT_REQUESTS = 32
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
@@ -37,7 +37,7 @@ DOWNLOAD_DELAY = 0
 
 # Disable Telnet Console (enabled by default)
 TELNETCONSOLE_ENABLED = False
-RETRY_TIMES = 50
+RETRY_TIMES = 30
 
 # Override the default request headers:
 # DEFAULT_REQUEST_HEADERS = {
@@ -59,7 +59,7 @@ DOWNLOADER_MIDDLEWARES = {
     'slaveNode.dl_middlewares.rotate_useragent.RotateUserAgentMiddleware': 500,
     'slaveNode.dl_middlewares.wait_random_sec.WaitRandomSecMiddleware': 543,
     'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
-    # 'slaveNode.dl_middlewares.midproxy.ProxyMiddleware': 100,
+    'slaveNode.dl_middlewares.midproxy.ProxyMiddleware': 100,
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
 }
 

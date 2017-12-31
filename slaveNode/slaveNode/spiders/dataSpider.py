@@ -81,11 +81,9 @@ class DataSpider(RedisSpider):
                 item[k] = eval(spec['eval'])
             else:
                 res_sel = sel.xpath(spec['eval'])
-                if spec['re']:
-                    item[k] = res_sel.re(spec['re'])
-                else:
-                    item[k] = [v.strip() for v in res_sel.extract() if re.search(r'\S+', v)]
-                    # item[k] = res_sel.extract()
+                if spec['to_str']:
+                    res_sel = res_sel.xpath('string(.)')
+                item[k] = [v.strip() for v in res_sel.extract() if re.search(r'\S+', v)]
         return item
 
     # some url will into 'parse', so i help it into 'mypase'

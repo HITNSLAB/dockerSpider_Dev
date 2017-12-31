@@ -6,6 +6,7 @@ import redis
 import logging
 from scrapy.http import Request
 
+
 # Start your middleware class
 class ProxyMiddleware(object):
     # overwrite process request
@@ -19,7 +20,7 @@ class ProxyMiddleware(object):
             ProxyMiddleware.provider = redis.Redis(host=spider.settings.get('PROXY_PROVIDER_HOST'),
                                                    port=spider.settings.get('PROXY_PROVIDER_PORT'))
 
-        proxy_ip = "https://%s" % ProxyMiddleware.provider.rpop('ip_list')
+        proxy_ip = "http://%s" % ProxyMiddleware.provider.rpop('ip_list')
         request.meta['proxy'] = proxy_ip
         self.logger.info('Current used proxy: %s' % proxy_ip)
 
