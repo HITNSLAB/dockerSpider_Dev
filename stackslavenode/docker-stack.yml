@@ -41,7 +41,7 @@ services:
       leeyanzhe/dockerspider_slavenode
     deploy:
       mode: replicated
-      replicas: 20
+      replicas: 50
 #      resources:
 #        limits:
 #          cpus: '0.2'
