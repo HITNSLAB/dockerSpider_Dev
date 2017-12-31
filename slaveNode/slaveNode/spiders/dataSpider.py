@@ -19,8 +19,8 @@ from slaveNode.utils.links_process import *
 
 class DataSpider(RedisSpider):
     name = "dataSpider"
-    redis_key = 'urlSpider:start_urls'
-    temp_redis = 'dataSpider:start_urls'
+    redis_key = 'dataSpider:start_urls'
+    temp_redis = 'tempSpider:start_urls'
     custom_settings = {
         'SCHEDULER': 'slaveNode.scrapy_redis_bf.scheduler.Scheduler',
         'SCHEDULER_QUEUE_CLASS': 'slaveNode.scrapy_redis_bf.queue.SpiderPriorityQueue',
@@ -32,7 +32,7 @@ class DataSpider(RedisSpider):
     # pop url from redis mannully for using bloomfilter
     def start_requests(self):
         while True:
-            url = self.server.lpop(self.redis_key)
+            url = self.server.rpop(self.redis_key)
             if not url:
                 # break
                 break

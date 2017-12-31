@@ -44,8 +44,12 @@ class UrlSpider(RedisCrawlSpider):
         tp = []
         for v in urls:
             res = fix_url(v)
-            if res and not UrlSpider.filter.request_seen(Request(url=res)):
-                tp.append(res)
+            if res:
+                if not UrlSpider.filter.request_seen(Request(url=res)):
+                    tp.append(res)
+                    # else:
+                    #     self.server.lrem(self.redis_key, count=0, value=res)
+
         item['url'] = set(tp)
         try:
             yield item

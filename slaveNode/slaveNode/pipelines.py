@@ -88,13 +88,13 @@ class SlavenodePipeline(object):
         # key = self.item_key(item, spider)
         # data = self.serialize(item)
         # key = 'dataSpider:start_urls'
-        key = 'urlSpider:start_urls'
         urlList = item['url']
         # type(item['url'])  ->   list
         # for data in urlList:
         #     self.server.rpush(key, data)
         if len(urlList):
-            self.server.rpush(key, *urlList)
+            self.server.lpush('urlSpider:start_urls', *urlList)
+            self.server.lpush('dataSpider:start_urls', *urlList)
         return item
 
         # send the final data into mongoDB
