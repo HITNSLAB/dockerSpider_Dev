@@ -3,10 +3,9 @@ services:
   dataspider:
     image:
       leeyanzhe/dockerspider_slavenode
-      # gcr.io/gcloud-159107/slavenode
     deploy:
       mode: replicated
-      replicas: 80
+      replicas: 90
 #      resources:
 #        limits:
 #          cpus: '0.5'
@@ -40,10 +39,9 @@ services:
   urlspider:
     image:
       leeyanzhe/dockerspider_slavenode
-      # gcr.io/gcloud-159107/slavenode
     deploy:
       mode: replicated
-      replicas: 40
+      replicas: 30
 #      resources:
 #        limits:
 #          cpus: '0.2'
@@ -72,7 +70,6 @@ services:
   webcontrol:
     image:
       leeyanzhe/dockerspider_webcontrol
-      # gcr.io/gcloud-159107/slavenode
     deploy:
       mode: global
 #      replicas: 1
@@ -104,7 +101,6 @@ services:
   cadvisor:
     image:
       google/cadvisor
-      # gcr.io/gcloud-159107/slavenode
     deploy:
       mode: global
 #      replicas: 1
