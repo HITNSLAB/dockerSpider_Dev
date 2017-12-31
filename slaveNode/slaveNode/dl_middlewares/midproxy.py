@@ -20,9 +20,12 @@ class ProxyMiddleware(object):
             ProxyMiddleware.provider = redis.Redis(host=spider.settings.get('PROXY_PROVIDER_HOST'),
                                                    port=spider.settings.get('PROXY_PROVIDER_PORT'))
 
-        proxy_ip = "http://%s" % ProxyMiddleware.provider.rpop('ip_list')
-        request.meta['proxy'] = proxy_ip
-        self.logger.info('Current used proxy: %s' % proxy_ip)
+        fetched = ProxyMiddleware.provider.rpop('ip_list')
+
+        if fetched:
+            proxy_ip = "http://%s" % fetched
+            request.meta['proxy'] = proxy_ip
+            self.logger.info('Current used proxy: %s' % proxy_ip)
 
         # def process_response(self, request, response, spider):
         #     if response.status != 200:
