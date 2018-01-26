@@ -1,4 +1,4 @@
-FROM python:2-alipine
+FROM python:2-alpine
 
 MAINTAINER NI YUANDONG & LI YANZHE
 
