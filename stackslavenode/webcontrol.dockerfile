@@ -1,4 +1,4 @@
-FROM python:2
+FROM python:2-alipine
 
 MAINTAINER NI YUANDONG & LI YANZHE
 
@@ -6,10 +6,8 @@ WORKDIR /usr/src/app
 
 ADD ./webControl ./webControl
 
-RUN apt -y update \
-    && apt -y upgrade \
-    && pip2 install scrapy_redis bs4 pymongo django dwebsocket \
-    && apt -y install tor proxychains
+RUN pip install -U pip \
+    && pip install scrapy_redis bs4 pymongo django dwebsocket
 
 WORKDIR webControl
 
